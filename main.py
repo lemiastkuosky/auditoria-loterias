@@ -1,57 +1,55 @@
 import requests
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 
-# URL da API que você descobriu
+# Configurações
 URL = "https://api.systemgame.cc/api/v1/app/random-prize"
+ARQUIVO_JSON = 'dados_loterias.json'
 
-def capturar():
+def capturar_dados():
     try:
-        # Tenta acessar a API
-        response = requests.get(URL, timeout=15)
+        response = requests.get(URL, timeout=20)
         data = response.json().get('data', response.json())
         
         if not data or 'name' not in data:
             return None
 
-        agora = datetime.now()
+        # Ajuste para Horário de Brasília (UTC -3)
+        fuso_brasilia = datetime.utcnow() - timedelta(hours=3)
         
         return {
-            "dia": agora.strftime("%d/%m/%Y"),
-            "horario_extracao": data.get("created_at") or agora.strftime("%H:%M"),
-            "loteria": data.get("lottery_name") or "Loteria Padrão",
+            "dia": fuso_brasilia.strftime("%d/%m/%Y"),
+            "horario_registro": fuso_brasilia.strftime("%H:%M:%S"),
+            "horario_extracao": data.get("created_at") or fuso_brasilia.strftime("%H:%M"),
+            "loteria": data.get("lottery_name") or "Extração Geral",
             "ganhador": data.get("name"),
             "valor": data.get("prize"),
-            "timestamp": agora.isoformat()
+            "timestamp_local": fuso_brasilia.isoformat()
         }
-    except:
+    except Exception as e:
+        print(f"Erro na conexão: {e}")
         return None
 
-def atualizar_banco(novo_registro):
-    if not novo_registro: return
-
-    arquivo = 'dados_loterias.json'
+def salvar(novo):
+    if not novo: return
     
-    # Carrega dados existentes
-    if os.path.exists(arquivo):
-        with open(arquivo, 'r', encoding='utf-8') as f:
+    if os.path.exists(ARQUIVO_JSON):
+        with open(ARQUIVO_JSON, 'r', encoding='utf-8') as f:
             historico = json.load(f)
     else:
         historico = []
 
-    # Evita duplicados (checa se o ganhador e horário são os mesmos do último registro)
-    if historico and historico[-1]['ganhador'] == novo_registro['ganhador'] and historico[-1]['horario_extracao'] == novo_registro['horario_extracao']:
-        print("Dados já registrados. Pulando...")
+    # Bloqueia duplicados: só salva se o ganhador E o valor forem diferentes do último
+    if historico and historico[-1]['ganhador'] == novo['ganhador'] and historico[-1]['valor'] == novo['valor']:
+        print("Sorteio já auditado. Pulando...")
         return
 
-    historico.append(novo_registro)
+    historico.append(novo)
     
-    # Salva de volta no JSON
-    with open(arquivo, 'w', encoding='utf-8') as f:
+    with open(ARQUIVO_JSON, 'w', encoding='utf-8') as f:
         json.dump(historico, f, indent=4, ensure_ascii=False)
-    print(f"Sucesso: {novo_registro['ganhador']} registrado.")
+    print(f"✅ Sucesso: {novo['ganhador']} registrado às {novo['horario_registro']}")
 
 if __name__ == "__main__":
-    registro = capturar()
-    atualizar_banco(registro)
+    salvar(capturar_dados())
