@@ -75,5 +75,16 @@
         "valor": "R$ 900,00",
         "timestamp_local": "2026-02-18T19:52:52.255086",
         "suspeito": false
+    },
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "19:39",
+        "loteria": "LT BAHIA 19HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "946",
+        "ganhador": "Unidade: 676138",
+        "valor": "R$ 12.000,00",
+        "timestamp_local": "2026-02-18T20:21:37.375333",
+        "suspeito": false
     }
 ]
