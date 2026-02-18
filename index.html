@@ -3,209 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoria Pro | Sistema de Extrações</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard Auditoria Pro | Let's 3D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --bg: #0b0f1a;
-            --surface: #161b2a;
-            --border: #2d3343;
-            --primary: #3b82f6;
-            --success: #10b981;
-            --danger: #ef4444;
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
-        }
-
-        /* Topbar */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin: 0;
-            color: var(--primary);
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-        }
-
-        .stat-card span {
-            display: block;
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .stat-card .value {
-            font-size: 32px;
-            font-weight: 700;
-        }
-
-        /* Tabela Profissional */
-        .table-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th {
-            background: #1c2333;
-            padding: 16px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-        }
-
-        tr:hover {
-            background: #1e2538;
-        }
-
-        .badge {
-            background: #2d3343;
-            color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .price-text {
-            color: var(--success);
-            font-weight: 700;
-        }
-
-        /* Rodapé de Status */
-        footer {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            padding: 12px 20px;
-            position: sticky;
-            bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status-group {
-            display: flex;
-            gap: 20px;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .led {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--danger);
-            box-shadow: 0 0 5px var(--danger);
-            transition: 0.3s;
-        }
-
-        .led.active {
-            background: var(--success);
-            box-shadow: 0 0 10px var(--success);
-        }
-
-        .timestamp {
-            font-size: 11px;
-            font-family: monospace;
-            color: var(--text-muted);
-        }
-
-        input[type="date"] {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: white;
-            padding: 8px;
-            border-radius: 6px;
-            font-family: inherit;
-        }
+        :root { --bg: #0b0f1a; --surface: #161b2a; --border: #2d3343; --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --text: #f8fafc; --text-muted: #94a3b8; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; box-sizing: border-box; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+        .stat-card span { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+        .stat-card .value { font-size: 24px; font-weight: 700; }
+        .chart-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 30px; height: 300px; }
+        .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
+        th { background: #1c2333; padding: 15px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 13px; }
+        .price-tag { color: var(--success); font-weight: 700; }
+        footer { background: var(--surface); border-top: 1px solid var(--border); padding: 10px 20px; position: sticky; bottom: 0; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .status-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-muted); }
+        .led { width: 10px; height: 10px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 5px var(--danger); transition: 0.3s; }
+        .led.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>AUDITORIA DE EXTRAÇÕES</h1>
-        <input type="date" id="dataFiltro" onchange="renderizarTabela()">
+        <h1 style="color: var(--primary); font-size: 18px;">AUDITORIA DE EXTRAÇÕES PRO</h1>
+        <input type="date" id="filtroData" onchange="renderizarTudo()" style="background:#161b2a; color:#fff; border:1px solid #2d3343; padding:5px; border-radius:5px;">
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card">
-            <span>Volume Pago (Hoje)</span>
-            <div id="volumeHoje" class="value">R$ 0,00</div>
-        </div>
-        <div class="stat-card">
-            <span>Extrações Auditadas</span>
-            <div id="totalExtracoes" class="value">0</div>
-        </div>
-        <div class="stat-card">
-            <span>Frequência do Robô</span>
-            <div class="value" style="font-size: 18px; color: var(--primary);">15 em 15 Minutos</div>
-        </div>
+        <div class="stat-card"><span>Total Premiado (Dia)</span><div id="valDia" class="value">R$ 0,00</div></div>
+        <div class="stat-card"><span>Extrações Auditadas</span><div id="extCount" class="value">0</div></div>
+        <div class="stat-card"><span>Pico de Horário</span><div id="picoHora" class="value">--:--</div></div>
+    </div>
+
+    <div class="chart-section">
+        <canvas id="meuGrafico"></canvas>
     </div>
 
     <div class="table-section">
@@ -213,111 +50,96 @@
             <thead>
                 <tr>
                     <th>Horário</th>
-                    <th>Loteria / Modalidade</th>
-                    <th>Tipo de Prêmio</th>
-                    <th>Valor do Prêmio</th>
+                    <th>Loteria</th>
+                    <th>Ganhador (Oculto)</th>
+                    <th>Prêmio Pago</th>
                 </tr>
             </thead>
-            <tbody id="tabelaDados">
-                </tbody>
+            <tbody id="tabelaDados"></tbody>
         </table>
     </div>
 </div>
 
 <footer>
-    <div class="status-group">
-        <div class="status-item">
-            <div id="ledGitHub" class="led"></div> GITHUB PAGES
-        </div>
-        <div class="status-item">
-            <div id="ledAPI" class="led"></div> SINCRONIZAÇÃO SERVIDOR
-        </div>
+    <div style="display:flex; gap:20px;">
+        <div class="status-item"><div id="ledGit" class="led"></div> GITHUB</div>
+        <div class="status-item"><div id="ledSvr" class="led"></div> SERVIDOR API</div>
     </div>
-    <div id="lastSync" class="timestamp">ÚLTIMA CHECAGEM: --:--:--</div>
+    <div id="syncTime" style="font-size:10px; color:var(--text-muted);">SINCRONIZANDO...</div>
 </footer>
 
 <script>
     let db = [];
+    let grafico = null;
 
-    async function inicializar() {
-        // Define data de hoje no filtro
-        const hoje = new Date().toISOString().split('T')[0];
-        document.getElementById('dataFiltro').value = hoje;
-        
-        await carregarDados();
-        
-        // Simula conexão GitHub ativa se o site carregou
-        document.getElementById('ledGitHub').classList.add('active');
+    async function init() {
+        document.getElementById('filtroData').value = new Date().toISOString().split('T')[0];
+        document.getElementById('ledGit').classList.add('active');
+        await carregar();
+        setInterval(carregar, 60000);
     }
 
-    async function carregarDados() {
+    async function carregar() {
         try {
-            const response = await fetch('dados_loterias.json?nocache=' + Date.now());
-            if (!response.ok) throw new Error("Erro ao ler JSON");
+            const res = await fetch('dados_loterias.json?v=' + Date.now());
+            if (!res.ok) throw new Error();
+            db = await res.json();
             
-            db = await response.json();
-            
-            // Verifica se o servidor atualizou dados recentemente (menos de 1 hora)
-            validarSincronizacao(db);
-            renderizarTabela();
-            
-            document.getElementById('lastSync').innerText = "ÚLTIMA CHECAGEM: " + new Date().toLocaleTimeString();
+            validarSvr(db);
+            renderizarTudo();
+            document.getElementById('syncTime').innerText = "ÚLTIMA ATUALIZAÇÃO: " + new Date().toLocaleTimeString();
         } catch (e) {
-            console.error(e);
-            document.getElementById('ledAPI').classList.remove('active');
+            document.getElementById('ledSvr').classList.remove('active');
         }
     }
 
-    function validarSincronizacao(dados) {
-        if (dados.length === 0) return;
-        
-        const ultimoRegistro = dados[dados.length - 1];
-        const agora = new Date();
-        const dataRegistro = new Date(ultimoRegistro.timestamp_local || agora);
-        
-        // Se o último registro foi há menos de 45 minutos, LED verde
-        const diffMinutos = (agora - dataRegistro) / (1000 * 60);
-        
-        if (diffMinutos < 45) {
-            document.getElementById('ledAPI').classList.add('active');
-        } else {
-            document.getElementById('ledAPI').classList.remove('active');
-        }
+    function validarSvr(dados) {
+        if (!dados.length) return;
+        const ultima = new Date(dados[dados.length-1].timestamp_local || new Date());
+        const diff = (new Date() - ultima) / (1000 * 60);
+        (diff < 40) ? document.getElementById('ledSvr').classList.add('active') : document.getElementById('ledSvr').classList.remove('active');
     }
 
-    function renderizarTabela() {
-        const dataBusca = document.getElementById('dataFiltro').value.split('-').reverse().join('/');
-        const filtrados = db.filter(item => item.dia === dataBusca);
-        const tabela = document.getElementById('tabelaDados');
+    function renderizarTudo() {
+        const dataSel = document.getElementById('filtroData').value.split('-').reverse().join('/');
+        const filtrados = db.filter(i => i.dia === dataSel);
         
         let soma = 0;
+        const horasCount = {};
+
+        document.getElementById('tabelaDados').innerHTML = filtrados.slice().reverse().map(i => {
+            const v = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.'));
+            soma += isNaN(v) ? 0 : v;
+            
+            const h = i.horario_extracao.split(':')[0] + ':00';
+            horasCount[h] = (horasCount[h] || 0) + v;
+
+            return `<tr><td>${i.horario_extracao}</td><td><span style="background:#2d3343; padding:3px 8px; border-radius:4px; font-size:11px;">${i.loteria}</span></td><td>***</td><td class="price-tag">${i.valor}</td></tr>`;
+        }).join('') || '<tr><td colspan="4" style="text-align:center; padding:30px;">Sem dados para esta data.</td></tr>';
+
+        document.getElementById('valDia').innerText = soma.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+        document.getElementById('extCount').innerText = filtrados.length;
         
-        if (filtrados.length === 0) {
-            tabela.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 40px; color: var(--text-muted);">Nenhuma extração registrada para este dia.</td></tr>';
-        } else {
-            tabela.innerHTML = filtrados.slice().reverse().map(item => {
-                const val = parseFloat(item.valor.replace(/[^\d,]/g, '').replace(',', '.'));
-                soma += isNaN(val) ? 0 : val;
+        const topH = Object.keys(horasCount).reduce((a, b) => horasCount[a] > horasCount[b] ? a : b, "--:--");
+        document.getElementById('picoHora').innerText = topH;
 
-                return `
-                    <tr>
-                        <td><strong>${item.horario_extracao}</strong></td>
-                        <td><span class="badge">${item.loteria}</span></td>
-                        <td>${item.premio_tipo || 'Extração Direta'}</td>
-                        <td class="price-text">${item.valor}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        document.getElementById('totalExtracoes').innerText = filtrados.length;
-        document.getElementById('volumeHoje').innerText = soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        atualizarGrafico(horasCount);
     }
 
-    // Inicializa e agenda atualizações
-    inicializar();
-    setInterval(carregarDados, 60000); // Atualiza a tela a cada 1 minuto
-</script>
+    function atualizarGrafico(dados) {
+        const ctx = document.getElementById('meuGrafico').getContext('2d');
+        const labels = Object.keys(dados).sort();
+        const valores = labels.map(l => dados[l]);
 
+        if (grafico) grafico.destroy();
+        grafico = new Chart(ctx, {
+            type: 'bar',
+            data: { labels, datasets: [{ label: 'Volume por Horário (R$)', data: valores, backgroundColor: '#3b82f6', borderRadius: 5 }] },
+            options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#2d3343' } }, x: { grid: { display: false } } } }
+        });
+    }
+
+    init();
+</script>
 </body>
 </html>
