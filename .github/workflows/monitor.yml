@@ -1,15 +1,16 @@
 name: Monitor de Loterias 15min
 
 on:
+  push:               # Aciona o robô toda vez que você salvar um arquivo
   schedule:
-    - cron: '*/15 * * * *' # Roda a cada 15 minutos
-  workflow_dispatch: # Permite rodar manualmente para testar
+    - cron: '*/15 * * * *' # Roda automaticamente a cada 15 minutos
+  workflow_dispatch:  # Mantém o botão de "Run workflow" ativo
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Permissão para o robô salvar o arquivo JSON
+      contents: write # Permite que o robô salve os ganhadores no JSON
     steps:
       - name: Checkout código
         uses: actions/checkout@v3
@@ -25,10 +26,10 @@ jobs:
       - name: Executar Captura
         run: python main.py
 
-      - name: Salvar alterações
+      - name: Salvar alterações no Banco de Dados
         run: |
-          git config --global user.name "Robo de Auditoria"
+          git config --global user.name "Le - Auditoria"
           git config --global user.email "bot@github.com"
           git add dados_loterias.json
-          git commit -m "Atualização automática: $(date)" || echo "Sem mudanças"
-          git push
+          git commit -m "Captura Automática: $(date)" || echo "Sem novos sorteios para registrar"
+          git push origin main
