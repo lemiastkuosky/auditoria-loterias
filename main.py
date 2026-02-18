@@ -7,14 +7,14 @@ from datetime import datetime, timedelta
 URL = "https://api.systemgame.cc/api/v1/app/random-prize"
 ARQUIVO_JSON = 'dados_loterias.json'
 
-# Token Válido (Atualizado)
+# Token Válido (Mantendo o seu token atual)
 HEADERS = {
     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE3OTg2OCwiaWF0IjoxNzcxNDI4MDM2LCJleHAiOjE3NzQwMjAwMzZ9.NGO5X3txXXqse3b3G7jPbIvhBfYo60E5e74Q5mXdVH4',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
 def capturar():
-    print(f"🔄 Conectando ao servidor...")
+    print(f"🔄 Conectando ao servidor para auditoria...")
     try:
         response = requests.get(URL, headers=HEADERS, timeout=30)
         
@@ -22,19 +22,18 @@ def capturar():
             raw = response.json()
             data_interna = raw.get('data', {})
 
-            # --- DADOS DETALHADOS ---
+            # Tratamento de dados
             nome_ganhador = raw.get('winner', '---')
-            # Se o nome for "Unidade: X", tenta pegar nome real se existir, ou mantém
             if "Unidade" in nome_ganhador and 'name' in data_interna:
                  nome_ganhador = data_interna['name']
 
-            numero_jogado = data_interna.get('numero', '---') # O NÚMERO EXATO (ex: 032)
-            modalidade = data_interna.get('modalidade', 'Prêmio') # EX: CENTENA, MILHAR
+            numero_jogado = str(data_interna.get('numero', '---'))
+            modalidade = data_interna.get('modalidade', 'Prêmio')
             nome_loteria = data_interna.get('loteriaTitle', 'Extração Geral')
             valor_bruto = raw.get('prize', 0)
             horario_servidor = raw.get('created_at') 
 
-            # Formatação de Valor
+            # Formatação Moeda
             try:
                 val_float = float(valor_bruto)
                 valor_formatado = f"R$ {val_float:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
@@ -47,15 +46,15 @@ def capturar():
                 "dia": fuso_brasilia.strftime("%d/%m/%Y"),
                 "horario_extracao": horario_servidor.split(' ')[1] if ' ' in horario_servidor else fuso_brasilia.strftime("%H:%M"),
                 "loteria": nome_loteria,
-                "modalidade": modalidade,  # Campo novo
-                "numero_sorteado": numero_jogado, # Campo novo
+                "modalidade": modalidade,
+                "numero_sorteado": numero_jogado,
                 "ganhador": nome_ganhador,
                 "valor": valor_formatado,
                 "timestamp_local": fuso_brasilia.isoformat(),
                 "suspeito": False
             }
             
-            print(f"✅ CAPTURADO: {registro['modalidade']} - Nº {registro['numero_sorteado']} - {registro['valor']}")
+            print(f"🔎 DADO CAPTURADO: {registro['loteria']} | {registro['ganhador']} | {registro['valor']}")
             return registro
         
         elif response.status_code == 401:
@@ -72,31 +71,34 @@ def capturar():
 def salvar(novo):
     if not novo: return
     
+    # Carrega histórico
+    historico = []
     if os.path.exists(ARQUIVO_JSON):
         with open(ARQUIVO_JSON, 'r', encoding='utf-8') as f:
             try:
-                historico = json.load(f)
-                if not isinstance(historico, list): historico = []
+                content = f.read()
+                if content:
+                    historico = json.loads(content)
             except:
                 historico = []
-    else:
-        historico = []
 
-    # Validação Anti-Duplicidade
-    if historico:
-        ultimo = historico[-1]
-        # Compara Loteria, Valor e Número para saber se é o mesmo prêmio
-        if (ultimo.get('loteria') == novo['loteria'] and 
-            ultimo.get('valor') == novo['valor'] and 
-            ultimo.get('numero_sorteado') == novo['numero_sorteado']):
-            print("ℹ️ Dado já existente.")
+    # --- TRAVA DE SEGURANÇA MÁXIMA ---
+    # Varre o arquivo inteiro para ver se este sorteio JÁ existe
+    for item in historico:
+        # Cria uma "assinatura" do item existente e do novo
+        assinatura_existente = f"{item.get('loteria')}-{item.get('horario_extracao')}-{item.get('numero_sorteado')}-{item.get('valor')}"
+        assinatura_nova = f"{novo['loteria']}-{novo['horario_extracao']}-{novo['numero_sorteado']}-{novo['valor']}"
+        
+        if assinatura_existente == assinatura_nova:
+            print(f"🚫 BLOQUEADO: O prêmio de {novo['valor']} da {novo['loteria']} já existe no banco de dados. Ignorando.")
             return
+    # ----------------------------------
 
     historico.append(novo)
     
     with open(ARQUIVO_JSON, 'w', encoding='utf-8') as f:
         json.dump(historico, f, indent=4, ensure_ascii=False)
-    print("💾 BANCO DE DADOS ATUALIZADO!")
+    print("✅ SUCESSO: Novo registro único salvo no banco!")
 
 if __name__ == "__main__":
     salvar(capturar())
