@@ -53,5 +53,16 @@
         "valor": "R$ 4.000,00",
         "timestamp_local": "2026-02-18T17:56:31.801757",
         "suspeito": false
+    },
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "18:29",
+        "loteria": "LT LOOK 18HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "0046",
+        "ganhador": "Unidade: 960902",
+        "valor": "R$ 27.000,00",
+        "timestamp_local": "2026-02-18T19:03:14.709137",
+        "suspeito": false
     }
 ]
