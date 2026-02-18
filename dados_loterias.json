@@ -86,5 +86,16 @@
         "valor": "R$ 12.000,00",
         "timestamp_local": "2026-02-18T20:21:37.375333",
         "suspeito": false
+    },
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "20:30",
+        "loteria": "PT SP 20HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "7079",
+        "ganhador": "Unidade: 986243",
+        "valor": "R$ 1.568,00",
+        "timestamp_local": "2026-02-18T20:47:23.834295",
+        "suspeito": false
     }
 ]
