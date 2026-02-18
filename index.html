@@ -3,276 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoria Master | Cinza Chumbo Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Auditoria Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg: #121212;
-            --surface: #1e1e1e;
-            --surface-light: #262626;
-            --border: #333333;
-            --text: #e0e0e0;
-            --text-dim: #888888;
-            --accent: #b0b0b0; /* Prata/Chumbo */
+            --bg-dark: #121212;
+            --chumbo-dark: #1a1a1a;
+            --chumbo-medium: #262626;
+            --chumbo-light: #333333;
+            --accent: #d1d1d1;
+            --text-primary: #ffffff;
+            --text-secondary: #999999;
             --success: #4caf50;
-            --danger: #cf6679;
+            --danger: #f44336;
+            --border: #2d2d2d;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
             margin: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        .container { max-width: 1300px; margin: 0 auto; padding: 30px; width: 100%; box-sizing: border-box; flex: 1; }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 30px;
+            width: 100%;
+            flex: 1;
+        }
 
         /* Header */
-        .header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
-        .header h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 1px; color: var(--accent); }
-
-        /* Stats Section */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px; }
-        .stat-card { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px; }
-        .stat-card span { display: block; font-size: 10px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
-        .stat-card .value { font-family: 'Roboto Mono', monospace; font-size: 24px; font-weight: 700; }
-
-        /* Advanced Filters */
-        .filters { 
-            background: var(--surface); 
-            border: 1px solid var(--border); 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 15px;
-            align-items: end;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
-        .filter-group { display: flex; flex-direction: column; gap: 8px; }
-        .filter-group label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; }
-        input, select { background: var(--surface-light); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 2px; outline: none; font-size: 13px; }
-        input:focus { border-color: var(--accent); }
 
-        /* Table Style */
-        .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { background: var(--surface-light); padding: 15px; font-size: 11px; color: var(--text-dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
-        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 13px; font-family: 'Roboto Mono', monospace; }
+        .header h1 {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin: 0;
+        }
+
+        #clock {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--chumbo-dark);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .stat-card span {
+            display: block;
+            font-size: 9px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .stat-card .value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        /* Filters Bar */
+        .filters-container {
+            background: var(--chumbo-dark);
+            border: 1px solid var(--border);
+            padding: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .filter-group label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        select, input {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            outline: none;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--text-secondary);
+        }
+
+        .btn-reset {
+            background: var(--chumbo-light);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Table Section */
+        .table-section {
+            background: var(--chumbo-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: var(--chumbo-medium);
+            padding: 12px 15px;
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
         tr:hover { background: #222222; }
-        .val-text { color: var(--success); font-weight: 700; }
 
-        /* Footer Status */
-        footer { background: #0a0a0a; border-top: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; bottom: 0; }
-        .status-box { display: flex; gap: 25px; }
-        .status-item { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-dim); font-weight: 700; }
-        .led { width: 10px; height: 10px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 5px var(--danger); transition: 0.5s; }
-        .led.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .tag {
+            background: var(--chumbo-light);
+            padding: 3px 6px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-weight: 600;
+        }
 
-        .chart-container { background: var(--surface); border: 1px solid var(--border); padding: 20px; height: 250px; margin-bottom: 30px; }
+        .price-up { color: var(--success); font-weight: 700; }
+
+        /* Rodapé Profissional */
+        footer {
+            background: #0a0a0a;
+            border-top: 1px solid var(--border);
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+        }
+
+        .status-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .led {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--danger);
+            box-shadow: 0 0 4px var(--danger);
+        }
+
+        .led.on {
+            background: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .credits {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #last-sync {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>SISTEMA DE AUDITORIA DE EXTRAÇÕES v4.0</h1>
-        <div style="font-family: 'Roboto Mono'; font-size: 12px; color: var(--text-dim);" id="clock">--/--/-- 00:00:00</div>
+        <h1>Dashboard Auditoria Master</h1>
+        <div id="clock">--/--/-- 00:00:00</div>
     </div>
 
-    <div class="filters">
+    <div class="filters-container">
         <div class="filter-group">
-            <label>Data da Extração</label>
-            <input type="date" id="fData" onchange="processarDados()">
+            <label>Calendário de Análise</label>
+            <input type="date" id="filterDate" onchange="applyFilters()">
         </div>
         <div class="filter-group">
-            <label>Modalidade / Loteria</label>
-            <select id="fLoteria" onchange="processarDados()">
-                <option value="">TODAS AS LOTERIAS</option>
+            <label>Extração / Loteria</label>
+            <select id="filterLottery" onchange="applyFilters()">
+                <option value="">TODAS AS EXTRAÇÕES</option>
             </select>
         </div>
         <div class="filter-group">
-            <label>Tipo de Prêmio</label>
-            <select id="fTipo" onchange="processarDados()">
-                <option value="">TODOS OS TIPOS</option>
+            <label>Modalidade de Prêmio</label>
+            <select id="filterPrize" onchange="applyFilters()">
+                <option value="">TODOS OS PRÊMIOS</option>
             </select>
         </div>
         <div class="filter-group">
-            <label>Busca Livre (Ganhador/Valor)</label>
-            <input type="text" id="fBusca" placeholder="Pesquisar..." oninput="processarDados()">
+            <label>Filtrar por Identificação</label>
+            <input type="text" id="filterSearch" placeholder="Nome ou Valor..." oninput="applyFilters()">
         </div>
-        <button onclick="resetar()" style="background: var(--surface-light); color: var(--text); border: 1px solid var(--border); padding: 10px; cursor: pointer; font-size: 11px; font-weight: 700;">RESETAR</button>
+        <button class="btn-reset" onclick="resetFilters()">Resetar Filtros</button>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card"><span>Volume Total Auditado (Hoje)</span><div class="value" id="sVolume">R$ 0,00</div></div>
-        <div class="stat-card"><span>Extrações Identificadas</span><div class="value" id="sQtd">0</div></div>
-        <div class="stat-card"><span>Ticket Médio Prêmios</span><div class="value" id="sMedio">R$ 0,00</div></div>
-        <div class="stat-card"><span>Horário de Pico</span><div class="value" id="sPico">--:--</div></div>
-    </div>
-
-    <div class="chart-container">
-        <canvas id="graficoVolume"></canvas>
+        <div class="stat-card">
+            <span>Volume Total (Filtro)</span>
+            <div class="value" id="statTotalValue" style="color: var(--success);">R$ 0,00</div>
+        </div>
+        <div class="stat-card">
+            <span>Extrações Auditadas</span>
+            <div class="value" id="statCount">0</div>
+        </div>
+        <div class="stat-card">
+            <span>Ticket Médio Prêmios</span>
+            <div class="value" id="statAverage" style="color: var(--accent);">R$ 0,00</div>
+        </div>
     </div>
 
     <div class="table-section">
         <table>
             <thead>
                 <tr>
-                    <th>HORÁRIO</th>
-                    <th>LOTERIA</th>
-                    <th>TIPO PRÊMIO</th>
-                    <th>IDENTIFICAÇÃO</th>
-                    <th>VALOR PAGO</th>
+                    <th>Horário</th>
+                    <th>Extração / Loteria</th>
+                    <th>Modalidade</th>
+                    <th>Identificação</th>
+                    <th>Valor do Prêmio</th>
                 </tr>
             </thead>
-            <tbody id="tabelaDados"></tbody>
+            <tbody id="dataTableBody">
+                </tbody>
         </table>
     </div>
 </div>
 
 <footer>
-    <div class="status-box">
-        <div class="status-item"><div id="ledGit" class="led"></div> GITHUB PAGES</div>
-        <div class="status-item"><div id="ledApi" class="led"></div> CONEXÃO SERVIDOR</div>
+    <div class="status-container">
+        <div class="status-item"><div id="ledGithub" class="led"></div> GITHUB PAGES</div>
+        <div class="status-item"><div id="ledServer" class="led"></div> SERVIDOR API</div>
+        <div id="last-sync">ÚLTIMA SINCRONIZAÇÃO: --:--:--</div>
     </div>
-    <div id="syncStatus" style="font-size: 10px; color: var(--text-dim); font-family: 'Roboto Mono';">SINCRONIZANDO...</div>
+    
+    <div class="credits">
+        CRIADO POR LE | v5.0
+    </div>
 </footer>
 
 <script>
     let rawData = [];
-    let myChart = null;
 
-    async function init() {
-        document.getElementById('fData').value = new Date().toISOString().split('T')[0];
-        document.getElementById('ledGit').classList.add('active');
-        await atualizar();
-        setInterval(atualizar, 60000);
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString(); }, 1000);
-    }
-
-    async function atualizar() {
+    async function fetchData() {
+        console.log("Iniciando atualização automática de 5 minutos...");
         try {
-            const res = await fetch('dados_loterias.json?v=' + Date.now());
-            if (!res.ok) throw new Error();
-            rawData = await res.json();
+            const response = await fetch('dados_loterias.json?v=' + Date.now());
+            if (!response.ok) throw new Error("Falha ao carregar banco");
+            rawData = await response.json();
             
-            povoarFiltros();
-            validarServer();
-            processarDados();
-            document.getElementById('syncStatus').innerText = "ÚLTIMA SINCRONIZAÇÃO: " + new Date().toLocaleTimeString();
+            setupFilters();
+            updateStatusLeds();
+            applyFilters();
+            
+            document.getElementById('ledGithub').classList.add('on');
+            document.getElementById('last-sync').innerText = "ÚLTIMA SINCRONIZAÇÃO: " + new Date().toLocaleTimeString();
         } catch (e) {
-            document.getElementById('ledApi').classList.remove('active');
+            console.error("Erro na busca de dados:", e);
+            document.getElementById('ledServer').classList.remove('on');
         }
     }
 
-    function povoarFiltros() {
-        const loterias = [...new Set(rawData.map(i => i.loteria))];
-        const tipos = [...new Set(rawData.map(i => i.premio_tipo))];
+    function setupFilters() {
+        const lotteries = [...new Set(rawData.map(i => i.loteria))].sort();
+        const prizes = [...new Set(rawData.map(i => i.premio_tipo))].sort();
         
-        const selLot = document.getElementById('fLoteria');
-        const selTipo = document.getElementById('fTipo');
+        const lotterySelect = document.getElementById('filterLottery');
+        const prizeSelect = document.getElementById('filterPrize');
 
-        if(selLot.options.length <= 1) {
-            loterias.forEach(l => selLot.add(new Option(l, l)));
-            tipos.forEach(t => selTipo.add(new Option(t, t)));
+        // Só popula se estiver vazio (exceto o "Todas")
+        if(lotterySelect.options.length <= 1) {
+            lotteries.forEach(l => lotterySelect.add(new Option(l, l)));
+            prizes.forEach(p => prizeSelect.add(new Option(p, p)));
         }
     }
 
-    function validarServer() {
-        if(!rawData.length) return;
-        const ultima = new Date(rawData[rawData.length-1].timestamp_local);
-        const diff = (new Date() - ultima) / (1000 * 60);
-        (diff < 45) ? document.getElementById('ledApi').classList.add('active') : document.getElementById('ledApi').classList.remove('active');
+    function updateStatusLeds() {
+        if (!rawData.length) return;
+        const lastEntry = rawData[rawData.length - 1];
+        const lastTimestamp = new Date(lastEntry.timestamp_local);
+        const now = new Date();
+        const diffMinutes = (now - lastTimestamp) / (1000 * 60);
+
+        // Se o último dado foi há menos de 45 min, o servidor está saudável
+        if (diffMinutes < 45) {
+            document.getElementById('ledServer').classList.add('on');
+        } else {
+            document.getElementById('ledServer').classList.remove('on');
+        }
     }
 
-    function processarDados() {
-        const dataF = document.getElementById('fData').value.split('-').reverse().join('/');
-        const lotF = document.getElementById('fLoteria').value;
-        const tipoF = document.getElementById('fTipo').value;
-        const buscaF = document.getElementById('fBusca').value.toLowerCase();
+    function applyFilters() {
+        const filterDate = document.getElementById('filterDate').value.split('-').reverse().join('/');
+        const filterLottery = document.getElementById('filterLottery').value;
+        const filterPrize = document.getElementById('filterPrize').value;
+        const filterSearch = document.getElementById('filterSearch').value.toLowerCase();
 
-        const filtrados = rawData.filter(i => {
-            return i.dia === dataF &&
-                   (lotF === "" || i.loteria === lotF) &&
-                   (tipoF === "" || i.premio_tipo === tipoF) &&
-                   (i.ganhador.toLowerCase().includes(buscaF) || i.valor.includes(buscaF));
+        const filtered = rawData.filter(item => {
+            const matchDate = !document.getElementById('filterDate').value || item.dia === filterDate;
+            const matchLottery = !filterLottery || item.loteria === filterLottery;
+            const matchPrize = !filterPrize || item.premio_tipo === filterPrize;
+            const matchSearch = item.ganhador.toLowerCase().includes(filterSearch) || 
+                                item.valor.includes(filterSearch) ||
+                                item.horario_extracao.includes(filterSearch);
+
+            return matchDate && matchLottery && matchPrize && matchSearch;
         });
 
-        render(filtrados);
+        render(filtered);
     }
 
-    function render(dados) {
-        let soma = 0;
-        const hCount = {};
+    function render(data) {
+        const body = document.getElementById('dataTableBody');
+        let totalValue = 0;
 
-        document.getElementById('tabelaDados').innerHTML = dados.slice().reverse().map(i => {
-            const v = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.'));
-            soma += isNaN(v) ? 0 : v;
-            
-            const h = i.horario_extracao.split(':')[0] + ':00';
-            hCount[h] = (hCount[h] || 0) + v;
+        body.innerHTML = data.slice().reverse().map(item => {
+            const numericValue = parseFloat(item.valor.replace(/[^\d,]/g, '').replace(',', '.'));
+            totalValue += isNaN(numericValue) ? 0 : numericValue;
 
-            return `<tr>
-                <td>${i.horario_extracao}</td>
-                <td style="color:var(--accent)">${i.loteria}</td>
-                <td><span style="border:1px solid var(--border); padding:2px 5px; font-size:10px;">${i.premio_tipo}</span></td>
-                <td style="color:var(--text-dim)">${i.ganhador.substring(0,8)}***</td>
-                <td class="val-text">${i.valor}</td>
-            </tr>`;
-        }).join('') || '<tr><td colspan="5" style="text-align:center; padding:50px; color:var(--text-dim)">SEM REGISTROS PARA ESTA COMBINAÇÃO</td></tr>';
+            return `
+                <tr>
+                    <td class="mono">${item.horario_extracao}</td>
+                    <td style="color: var(--accent); font-weight: 600;">${item.loteria}</td>
+                    <td><span class="tag">${item.premio_tipo}</span></td>
+                    <td style="color: var(--text-secondary);">${item.ganhador.substring(0, 15)}...</td>
+                    <td class="price-up mono">${item.valor}</td>
+                </tr>
+            `;
+        }).join('') || '<tr><td colspan="5" style="text-align:center; padding: 50px; color: var(--text-secondary);">AGUARDANDO DADOS OU FILTRO VAZIO</td></tr>';
 
-        document.getElementById('sVolume').innerText = soma.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
-        document.getElementById('sQtd').innerText = dados.length;
-        document.getElementById('sMedio').innerText = dados.length ? (soma/dados.length).toLocaleString('pt-BR', {style:'currency', currency:'BRL'}) : 'R$ 0,00';
-        
-        const topH = Object.keys(hCount).reduce((a, b) => hCount[a] > hCount[b] ? a : b, "--:--");
-        document.getElementById('sPico').innerText = topH;
-
-        gerarGrafico(hCount);
+        // Atualiza Estatísticas
+        document.getElementById('statTotalValue').innerText = totalValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('statCount').innerText = data.length;
+        document.getElementById('statAverage').innerText = data.length ? (totalValue / data.length).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : "R$ 0,00";
     }
 
-    function gerarGrafico(dadosH) {
-        const ctx = document.getElementById('graficoVolume').getContext('2d');
-        const labels = Object.keys(dadosH).sort();
-        const vals = labels.map(l => dadosH[l]);
-
-        if (myChart) myChart.destroy();
-        myChart = new Chart(ctx, {
-            type: 'line',
-            data: { 
-                labels, 
-                datasets: [{ 
-                    label: 'Volume (R$)', 
-                    data: vals, 
-                    borderColor: '#757575', 
-                    backgroundColor: 'rgba(176, 176, 176, 0.1)', 
-                    fill: true,
-                    tension: 0.4 
-                }] 
-            },
-            options: { 
-                maintainAspectRatio: false, 
-                plugins: { legend: { display: false } },
-                scales: { 
-                    y: { beginAtZero: true, grid: { color: '#333' }, ticks: { color: '#888' } },
-                    x: { grid: { display: false }, ticks: { color: '#888' } }
-                } 
-            }
-        });
+    function resetFilters() {
+        document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+        document.getElementById('filterLottery').value = "";
+        document.getElementById('filterPrize').value = "";
+        document.getElementById('filterSearch').value = "";
+        applyFilters();
     }
 
-    function resetar() {
-        document.getElementById('fLoteria').value = "";
-        document.getElementById('fTipo').value = "";
-        document.getElementById('fBusca').value = "";
-        processarDados();
+    // Inicialização do Relógio e Dados
+    function startClock() {
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleString('pt-BR');
+        }, 1000);
     }
 
-    init();
+    // Configura data atual e inicia
+    document.getElementById('filterDate').value = new Date().toISOString().split('T')[0];
+    startClock();
+    fetchData();
+
+    // ATUALIZAÇÃO AUTOMÁTICA EM 5 MINUTOS (300.000 ms)
+    setInterval(fetchData, 300000); 
 </script>
+
 </body>
 </html>
