@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 URL = "https://api.systemgame.cc/api/v1/app/random-prize"
 ARQUIVO_JSON = 'dados_loterias.json'
 
-# Sua chave de acesso (Válida até Março/2026)
+# Token Válido (Atualizado)
 HEADERS = {
     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjE3OTg2OCwiaWF0IjoxNzcxNDI4MDM2LCJleHAiOjE3NzQwMjAwMzZ9.NGO5X3txXXqse3b3G7jPbIvhBfYo60E5e74Q5mXdVH4',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -20,42 +20,46 @@ def capturar():
         
         if response.status_code == 200:
             raw = response.json()
-            # Pega os dados internos (onde tem detalhes da loteria)
             data_interna = raw.get('data', {})
 
-            # Mapeamento dos novos campos descobertos no teste
+            # --- DADOS DETALHADOS ---
             nome_ganhador = raw.get('winner', '---')
-            valor_bruto = raw.get('prize', 0)
-            nome_loteria = data_interna.get('loteriaTitle', 'Extração Geral')
-            modalidade = data_interna.get('modalidade', 'Prêmio')
-            horario_servidor = raw.get('created_at') # Já vem como "18/02/2026 12:03"
+            # Se o nome for "Unidade: X", tenta pegar nome real se existir, ou mantém
+            if "Unidade" in nome_ganhador and 'name' in data_interna:
+                 nome_ganhador = data_interna['name']
 
-            # Formata o valor para R$ (Ex: 2000 -> R$ 2.000,00)
+            numero_jogado = data_interna.get('numero', '---') # O NÚMERO EXATO (ex: 032)
+            modalidade = data_interna.get('modalidade', 'Prêmio') # EX: CENTENA, MILHAR
+            nome_loteria = data_interna.get('loteriaTitle', 'Extração Geral')
+            valor_bruto = raw.get('prize', 0)
+            horario_servidor = raw.get('created_at') 
+
+            # Formatação de Valor
             try:
                 val_float = float(valor_bruto)
                 valor_formatado = f"R$ {val_float:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
             except:
                 valor_formatado = f"R$ {valor_bruto}"
 
-            # Cria o registro final
             fuso_brasilia = datetime.utcnow() - timedelta(hours=3)
             
             registro = {
                 "dia": fuso_brasilia.strftime("%d/%m/%Y"),
                 "horario_extracao": horario_servidor.split(' ')[1] if ' ' in horario_servidor else fuso_brasilia.strftime("%H:%M"),
                 "loteria": nome_loteria,
-                "premio_tipo": modalidade,
+                "modalidade": modalidade,  # Campo novo
+                "numero_sorteado": numero_jogado, # Campo novo
                 "ganhador": nome_ganhador,
                 "valor": valor_formatado,
                 "timestamp_local": fuso_brasilia.isoformat(),
                 "suspeito": False
             }
             
-            print(f"✅ SUCESSO! Capturado: {registro['ganhador']} - {registro['valor']}")
+            print(f"✅ CAPTURADO: {registro['modalidade']} - Nº {registro['numero_sorteado']} - {registro['valor']}")
             return registro
         
         elif response.status_code == 401:
-            print("❌ Erro 401: Token expirado ou inválido.")
+            print("❌ Erro 401: Token expirado.")
             return None
         else:
             print(f"❌ Erro HTTP: {response.status_code}")
@@ -78,19 +82,21 @@ def salvar(novo):
     else:
         historico = []
 
-    # Evita duplicar o mesmo prêmio (verifica horário e valor)
+    # Validação Anti-Duplicidade
     if historico:
         ultimo = historico[-1]
-        # Compara se é a mesma loteria e mesmo valor
-        if ultimo.get('loteria') == novo['loteria'] and ultimo.get('valor') == novo['valor'] and ultimo.get('ganhador') == novo['ganhador']:
-            print("ℹ️ Dado repetido. O servidor ainda não atualizou o ganhador.")
+        # Compara Loteria, Valor e Número para saber se é o mesmo prêmio
+        if (ultimo.get('loteria') == novo['loteria'] and 
+            ultimo.get('valor') == novo['valor'] and 
+            ultimo.get('numero_sorteado') == novo['numero_sorteado']):
+            print("ℹ️ Dado já existente.")
             return
 
     historico.append(novo)
     
     with open(ARQUIVO_JSON, 'w', encoding='utf-8') as f:
         json.dump(historico, f, indent=4, ensure_ascii=False)
-    print("💾 BANCO DE DADOS ATUALIZADO NO GITHUB!")
+    print("💾 BANCO DE DADOS ATUALIZADO!")
 
 if __name__ == "__main__":
     salvar(capturar())
