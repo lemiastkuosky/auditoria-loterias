@@ -2,69 +2,123 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Painel Real-Time Auditoria</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Auditoria | SG Loterias</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; background: #0f172a; color: white; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .card { background: #1e293b; padding: 15px; border-radius: 10px; border-top: 4px solid #3b82f6; }
-        .valor { color: #4ade80; font-size: 1.2em; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-        th, td { padding: 12px; border-bottom: 1px solid #334155; text-align: left; }
+        :root { --bg: #0f172a; --card: #1e293b; --primary: #3b82f6; --success: #10b981; --text-main: #f8fafc; --text-dim: #94a3b8; --border: #334155; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .live-indicator { height: 10px; width: 10px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
+        .stat-card h3 { font-size: 12px; color: var(--text-dim); text-transform: uppercase; margin: 0 0 10px 0; }
+        .stat-card .value { font-size: 28px; font-weight: 700; color: var(--primary); }
+        .table-container { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
+        th { background: #1e293b; padding: 15px; font-size: 12px; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .badge { background: #334155; padding: 4px 8px; border-radius: 4px; font-size: 11px; }
+        .valor-pago { color: var(--success); font-weight: 700; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
-    <h1>📊 Resumo das Loterias (Hoje)</h1>
-    <div id="resumo" class="grid">Carregando resumo...</div>
 
-    <h2>📜 Histórico Detalhado (Auditoria)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Dia</th>
-                <th>Hora Extração</th>
-                <th>Loteria</th>
-                <th>Ganhador</th>
-                <th>Valor</th>
-            </tr>
-        </thead>
-        <tbody id="tabela"></tbody>
-    </table>
+<div class="container">
+    <div class="header">
+        <h1><div class="live-indicator"></div> Auditoria SG Loterias</h1>
+        <div id="statusUpdate" style="font-size: 12px; color: var(--text-dim);">Aguardando...</div>
+    </div>
 
-    <script>
-        async function carregar() {
-            const res = await fetch('dados_loterias.json?t=' + Date.now());
-            const dados = await res.json();
-            const hoje = new Date().toLocaleDateString('pt-BR');
-            
-            // Gerar Resumo por Loteria
-            const resumoObj = {};
-            dados.filter(d => d.dia === hoje).forEach(s => {
-                if(!resumoObj[s.loteria]) resumoObj[s.loteria] = { count: 0, ultimo: s.valor };
-                resumoObj[s.loteria].count++;
-                resumoObj[s.loteria].ultimo = s.valor;
-            });
+    <div class="stats-grid">
+        <div class="stat-card"><h3>Sorteios Auditados</h3><div id="statTotal" class="value">0</div></div>
+        <div class="stat-card"><h3>Sorteios Hoje</h3><div id="statHoje" class="value">0</div></div>
+        <div class="stat-card"><h3>Total Pago Hoje</h3><div id="statValorHoje" class="value">R$ 0,00</div></div>
+        <div class="stat-card"><h3>Status do Robô</h3><div id="statStatus" class="value" style="font-size: 18px;">Verificando...</div></div>
+    </div>
 
-            document.getElementById('resumo').innerHTML = Object.keys(resumoObj).map(lot => `
-                <div class="card">
-                    <h3>${lot}</h3>
-                    <p>Sorteios hoje: <strong>${resumoObj[lot].count}</strong></p>
-                    <p>Último prêmio: <span class="valor">${resumoObj[lot].ultimo}</span></p>
-                </div>
-            `).join('');
-
-            // Preencher Tabela Completa
-            document.getElementById('tabela').innerHTML = dados.slice().reverse().map(i => `
+    <div class="table-container">
+        <table>
+            <thead>
                 <tr>
-                    <td>${i.dia}</td>
-                    <td>${i.horario_extracao}</td>
-                    <td>${i.loteria}</td>
-                    <td>${i.ganhador}</td>
-                    <td class="valor">${i.valor}</td>
+                    <th>Data</th>
+                    <th>Extração</th>
+                    <th>Modalidade</th>
+                    <th>Ganhador</th>
+                    <th>Prêmio</th>
                 </tr>
-            `).join('');
+            </thead>
+            <tbody id="corpoTabela">
+                <tr><td colspan="5" style="text-align:center; padding: 40px;">Carregando banco de dados...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    async function carregarDados() {
+        const corpo = document.getElementById('corpoTabela');
+        const statusTxt = document.getElementById('statStatus');
+        
+        try {
+            // O t=Date.now() serve para limpar o cache e pegar o dado mais novo
+            const response = await fetch('dados_loterias.json?t=' + Date.now());
+            
+            if (!response.ok) throw new Error("Arquivo não encontrado");
+            
+            const dados = await response.json();
+
+            if (!dados || dados.length === 0) {
+                corpo.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px;">Robô ativo, mas nenhum sorteio capturado hoje.</td></tr>';
+                statusTxt.innerText = "Online (Vazio)";
+                return;
+            }
+
+            atualizarDashboard(dados);
+            renderizarTabela(dados);
+            statusTxt.innerText = "Online";
+            document.getElementById('statusUpdate').innerText = "Última atualização: " + new Date().toLocaleTimeString();
+
+        } catch (error) {
+            console.error(error);
+            corpo.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 40px; color: #f87171;">Erro: O arquivo de dados ainda não foi gerado pelo GitHub Actions ou você está tentando abrir o arquivo localmente.</td></tr>';
+            statusTxt.innerText = "Erro de Link";
         }
-        carregar();
-        setInterval(carregar, 60000); // Atualiza a tela a cada minuto
-    </script>
+    }
+
+    function atualizarDashboard(dados) {
+        const hoje = new Date().toLocaleDateString('pt-BR');
+        const sorteiosHoje = dados.filter(d => d.dia === hoje);
+        
+        document.getElementById('statTotal').innerText = dados.length;
+        document.getElementById('statHoje').innerText = sorteiosHoje.length;
+
+        const somaHoje = sorteiosHoje.reduce((acc, curr) => {
+            const val = parseFloat(curr.valor.replace(/[^\d,]/g, '').replace(',', '.'));
+            return acc + (isNaN(val) ? 0 : val);
+        }, 0);
+        document.getElementById('statValorHoje').innerText = somaHoje.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function renderizarTabela(dados) {
+        const corpo = document.getElementById('corpoTabela');
+        corpo.innerHTML = dados.slice().reverse().map(d => `
+            <tr>
+                <td style="color: var(--text-dim)">${d.dia}</td>
+                <td style="font-weight: 600">${d.horario_extracao}</td>
+                <td><span class="badge">${d.loteria}</span></td>
+                <td><strong>${d.ganhador}</strong></td>
+                <td class="valor-pago">${d.valor}</td>
+            </tr>
+        `).join('');
+    }
+
+    carregarDados();
+    // Atualiza a cada 2 minutos
+    setInterval(carregarDados, 120000);
+</script>
+
 </body>
 </html>
