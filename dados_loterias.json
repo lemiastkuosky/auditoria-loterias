@@ -8,5 +8,15 @@
         "valor": "R$ 2.000,00",
         "timestamp_local": "2026-02-18T12:28:55.342536",
         "suspeito": false
+    },
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "12:47",
+        "loteria": "LT BAHIA 12HS",
+        "premio_tipo": "MILHAR",
+        "ganhador": "Unidade: 73513",
+        "valor": "R$ 14.400,00",
+        "timestamp_local": "2026-02-18T13:43:03.785169",
+        "suspeito": false
     }
 ]
