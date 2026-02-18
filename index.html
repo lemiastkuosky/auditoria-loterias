@@ -3,68 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoria PRO v7.0 | Análise Detalhada</title>
+    <title>Auditoria Master v8.0 | Lets 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root { 
-            --bg: #0d0d0d; --surface: #1a1a1a; --border: #2a2a2a; 
-            --accent: #d1d1d1; --text: #ffffff; --dim: #888; 
-            --warn: #ff9800; --success: #4caf50; --danger: #f44336; 
-            --info: #2196f3;
+            --bg: #0b0b0b; --surface: #161616; --surface-2: #222; --border: #333; 
+            --text: #e0e0e0; --dim: #888; --accent: #00e5ff;
+            --money: #00c853; --warn: #ffab00; --danger: #ff5252;
+            --milhar: #2979ff; --centena: #ab47bc;
         }
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
         
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; padding-bottom: 90px; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; width: 100%; padding-bottom: 90px; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
-        .header h1 { font-size: 16px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0; }
-        
-        /* PAINEL FINANCEIRO */
-        .summary-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #333; border: 1px solid #333; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
-        .sum-item { background: #111; text-align: center; padding: 15px; }
-        .sum-item h3 { font-size: 9px; color: #888; margin: 0 0 5px 0; letter-spacing: 1px; }
-        .sum-item p { font-size: 16px; color: #fff; margin: 0; font-family: 'JetBrains Mono'; font-weight: 700; }
-        .sum-item.highlight p { color: var(--success); }
+        /* CABEÇALHO */
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 25px; }
+        .header h1 { font-size: 18px; letter-spacing: 1px; text-transform: uppercase; color: var(--text); margin: 0; display: flex; align-items: center; gap: 10px; }
+        .badge-live { background: var(--money); color: #000; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* RELATÓRIO POR EXTRAÇÃO */
-        .report-box { background: #151515; border: 1px solid var(--border); border-radius: 4px; padding: 15px; margin-bottom: 25px; }
-        .report-title { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid #222; padding-bottom: 5px; display: flex; justify-content: space-between; }
-        .report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
-        .report-item { background: #0a0a0a; border: 1px solid #222; padding: 10px; border-radius: 3px; display: flex; justify-content: space-between; align-items: center; }
-        .report-info { display: flex; flex-direction: column; }
-        .r-name { font-size: 12px; font-weight: 700; color: #fff; }
-        .r-time { font-size: 10px; color: var(--dim); font-family: 'JetBrains Mono'; }
-        .r-val { font-family: 'JetBrains Mono'; font-size: 13px; color: var(--success); font-weight: 700; }
-
-        /* TABELA E ELEMENTOS */
-        .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow-x: auto; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 800px; }
-        th { background: #222; padding: 12px; font-size: 10px; color: var(--dim); text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; }
-        td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 12px; white-space: nowrap; vertical-align: middle; }
+        /* CARDS GLOBAIS (TOPO) */
+        .global-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+        .g-card { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 6px; position: relative; overflow: hidden; }
+        .g-card::after { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--border); }
+        .g-card.c-hoje::after { background: var(--accent); }
+        .g-card.c-sem::after { background: var(--money); }
+        .g-card.c-mes::after { background: var(--warn); }
         
-        .row-suspect { background: rgba(255, 152, 0, 0.05); border-left: 3px solid var(--warn); }
-        .badge { padding: 3px 6px; border-radius: 3px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
-        .bg-milhar { background: rgba(33, 150, 243, 0.2); color: #64b5f6; border: 1px solid rgba(33, 150, 243, 0.3); }
-        .bg-centena { background: rgba(156, 39, 176, 0.2); color: #ba68c8; border: 1px solid rgba(156, 39, 176, 0.3); }
-        .bg-normal { background: #333; color: #ccc; }
+        .g-label { font-size: 10px; text-transform: uppercase; color: var(--dim); font-weight: 700; display: block; margin-bottom: 5px; }
+        .g-value { font-family: 'JetBrains Mono'; font-size: 22px; font-weight: 700; color: #fff; }
         
-        .num-destaque { font-family: 'JetBrains Mono'; font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #fff; background: #000; padding: 2px 6px; border-radius: 3px; border: 1px solid #333; }
-
-        /* FILTROS E RODAPÉ */
-        .filters { background: var(--surface); border: 1px solid var(--border); padding: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; align-items: flex-end; }
-        select, input, button { background: #000; border: 1px solid var(--border); color: #fff; padding: 8px; font-size: 11px; border-radius: 3px; width: 100%; }
-        button { cursor: pointer; background: #333; font-weight: 700; } button:hover { background: var(--accent); color: #000; }
-
-        footer { background: #050505; padding: 8px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; box-shadow: 0 -4px 10px rgba(0,0,0,0.5); }
-        .led { width: 6px; height: 6px; border-radius: 50%; background: #333; display: inline-block; margin-right: 5px; }
-        .led.active { background: var(--success); box-shadow: 0 0 6px var(--success); }
+        /* ÁREA CENTRAL (MATRIZ + FILTROS) */
+        .dashboard-split { display: grid; grid-template-columns: 350px 1fr; gap: 20px; margin-bottom: 25px; align-items: start; }
         
-        @media (max-width: 600px) {
-            footer { flex-direction: column; gap: 5px; padding: 10px; }
-            .summary-bar { grid-template-columns: 1fr 1fr; }
-            .summary-bar .sum-item:last-child { grid-column: span 2; }
+        /* COLUNA ESQUERDA: FILTROS + MATRIZ */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+        
+        .filter-box { background: var(--surface); border: 1px solid var(--border); padding: 15px; border-radius: 6px; }
+        .f-group { margin-bottom: 12px; }
+        .f-group:last-child { margin-bottom: 0; }
+        .f-label { font-size: 10px; font-weight: 700; color: var(--dim); margin-bottom: 5px; display: block; }
+        select, input, button { background: #000; border: 1px solid var(--border); color: #fff; padding: 10px; font-size: 12px; border-radius: 4px; width: 100%; outline: none; }
+        select:focus, input:focus { border-color: var(--accent); }
+        button { background: var(--surface-2); cursor: pointer; font-weight: 700; transition: 0.2s; }
+        button:hover { background: var(--accent); color: #000; }
+
+        .matrix-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+        .matrix-header { background: var(--surface-2); padding: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+        
+        /* MATRIZ DE RESULTADOS (TABELA COMPACTA) */
+        .matrix-table { width: 100%; border-collapse: collapse; }
+        .matrix-table th { text-align: left; padding: 8px 10px; font-size: 9px; color: var(--dim); border-bottom: 1px solid var(--border); }
+        .matrix-table td { padding: 8px 10px; font-size: 11px; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono'; }
+        .mt-name { font-family: 'Inter'; font-weight: 600; color: var(--accent); }
+        .mt-val { color: #fff; }
+        .mt-row:hover { background: rgba(255,255,255,0.02); }
+
+        /* COLUNA DIREITA: LISTA DETALHADA */
+        .main-content { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; min-height: 500px; display: flex; flex-direction: column; }
+        .content-header { padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .content-title { font-size: 12px; font-weight: 700; text-transform: uppercase; }
+
+        .big-table-wrap { overflow-x: auto; flex: 1; }
+        .big-table { width: 100%; border-collapse: collapse; text-align: left; min-width: 800px; }
+        .big-table th { background: var(--surface-2); padding: 12px; font-size: 10px; color: var(--dim); text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; position: sticky; top: 0; }
+        .big-table td { padding: 12px; border-bottom: 1px solid #252525; font-size: 13px; vertical-align: middle; }
+        
+        /* ESTILOS DE CÉLULAS */
+        .cell-time { font-family: 'JetBrains Mono'; color: var(--dim); font-size: 11px; }
+        .cell-lot { font-weight: 700; color: #fff; }
+        .cell-num { font-family: 'JetBrains Mono'; font-weight: 700; background: #000; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border); display: inline-block; }
+        .cell-val { font-family: 'JetBrains Mono'; font-weight: 700; color: var(--money); font-size: 14px; }
+        
+        .badge { padding: 3px 8px; border-radius: 10px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
+        .b-milhar { background: rgba(41, 121, 255, 0.1); color: var(--milhar); border: 1px solid rgba(41, 121, 255, 0.3); }
+        .b-centena { background: rgba(171, 71, 188, 0.1); color: var(--centena); border: 1px solid rgba(171, 71, 188, 0.3); }
+        .b-normal { background: #333; color: #aaa; }
+
+        /* RODAPÉ */
+        footer { background: #050505; padding: 8px 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; font-size: 10px; font-weight: 600; color: var(--dim); }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #333; display: inline-block; margin-right: 5px; }
+        .status-dot.ok { background: var(--money); box-shadow: 0 0 5px var(--money); }
+        
+        @media (max-width: 900px) {
+            .dashboard-split { grid-template-columns: 1fr; }
+            .global-stats { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -72,67 +97,107 @@
 
 <div class="container">
     <div class="header">
-        <h1>Dashboard Lets 3D | Auditoria v7.0</h1>
-        <div id="clock" style="font-family: 'JetBrains Mono'; color: var(--dim); font-size: 11px;">--/--/-- 00:00</div>
+        <h1>Dashboard Audit <span class="badge-live">LIVE</span></h1>
+        <div id="clock" style="font-family: 'JetBrains Mono'; color: var(--dim); font-size: 12px;">--:--:--</div>
     </div>
 
-    <div class="summary-bar">
-        <div class="sum-item"><h3>HOJE</h3><p id="resHoje">R$ 0,00</p></div>
-        <div class="sum-item"><h3>7 DIAS</h3><p id="resSemana">R$ 0,00</p></div>
-        <div class="sum-item highlight"><h3>MÊS ATUAL</h3><p id="resMes">R$ 0,00</p></div>
-    </div>
-
-    <div class="report-box">
-        <div class="report-title">
-            <span>📚 Consolidado por Extração (Dia Selecionado)</span>
-            <span id="totalDia" style="color:#fff">R$ 0,00</span>
+    <div class="global-stats">
+        <div class="g-card c-hoje">
+            <span class="g-label">Hoje (Total)</span>
+            <div class="g-value" id="totHoje">R$ 0,00</div>
         </div>
-        <div class="report-grid" id="gridRelatorio">
+        <div class="g-card c-sem">
+            <span class="g-label">7 Dias (Total)</span>
+            <div class="g-value" id="totSemana">R$ 0,00</div>
+        </div>
+        <div class="g-card c-mes">
+            <span class="g-label">Mês Atual (Total)</span>
+            <div class="g-value" id="totMes">R$ 0,00</div>
+        </div>
+        <div class="g-card">
+            <span class="g-label">Ticket Médio</span>
+            <div class="g-value" id="totTicket">R$ 0,00</div>
+        </div>
+    </div>
+
+    <div class="dashboard-split">
+        <div class="sidebar">
+            <div class="filter-box">
+                <div class="f-group">
+                    <span class="f-label">DATA BASE</span>
+                    <input type="date" id="fData" onchange="renderizarTudo()">
+                </div>
+                <div class="f-group">
+                    <span class="f-label">FILTRAR LOTERIA</span>
+                    <select id="fLoteria" onchange="renderizarTudo()"><option value="">TODAS</option></select>
+                </div>
+                <div class="f-group">
+                    <span class="f-label">TURNO / HORÁRIO</span>
+                    <select id="fTurno" onchange="renderizarTudo()">
+                        <option value="">TODOS</option>
+                        <option value="manha">Manhã (00h - 12h)</option>
+                        <option value="tarde">Tarde (12h - 18h)</option>
+                        <option value="noite">Noite (18h - 23h)</option>
+                    </select>
+                </div>
+                <button onclick="carregarBanco()">Forçar Atualização</button>
             </div>
-    </div>
 
-    <div class="filters">
-        <div><label style="font-size:9px;color:#888;font-weight:700">DATA</label><input type="date" id="fData" onchange="processarDados()"></div>
-        <div><label style="font-size:9px;color:#888;font-weight:700">EXTRAÇÃO</label><select id="fLoteria" onchange="processarDados()"><option value="">TODAS</option></select></div>
-        <div><label style="font-size:9px;color:#888;font-weight:700">MODALIDADE</label><select id="fMod" onchange="processarDados()"><option value="">TODAS</option></select></div>
-        <div><label>&nbsp;</label><button onclick="carregarBanco()">ATUALIZAR</button></div>
-    </div>
+            <div class="matrix-box">
+                <div class="matrix-header">
+                    <span>Performance por Extração</span>
+                    <span>(HOJE)</span>
+                </div>
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>LOTERIA</th>
+                            <th style="text-align:right">QTD</th>
+                            <th style="text-align:right">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoMatriz"></tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Hora</th>
-                    <th>Extração</th>
-                    <th>Mod</th>
-                    <th>Número</th>
-                    <th>Ganhador</th>
-                    <th>Valor</th>
-                </tr>
-            </thead>
-            <tbody id="corpoTabela"></tbody>
-        </table>
+        <div class="main-content">
+            <div class="content-header">
+                <span class="content-title">Registro Detalhado de Prêmios</span>
+                <span style="font-size:10px; color:#666" id="contadorLinhas">0 registros</span>
+            </div>
+            <div class="big-table-wrap">
+                <table class="big-table">
+                    <thead>
+                        <tr>
+                            <th>Horário</th>
+                            <th>Extração</th>
+                            <th>Modalidade</th>
+                            <th>Número</th>
+                            <th>Ganhador</th>
+                            <th>Valor Pago</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
 <footer>
-    <div style="font-size:9px;color:#888;font-weight:600"><span id="lSvr" class="led"></span> API: <span id="tSvr">...</span></div>
-    <div style="font-size:9px;color:#888;font-weight:700">CRIADO POR LE | v7.0</div>
+    <div><span id="led" class="status-dot"></span> SISTEMA: <span id="statusTxt">CONECTANDO...</span></div>
+    <div>AUDITORIA LETS 3D v8.0</div>
 </footer>
 
 <script>
     let bancoTotal = [];
 
     async function iniciar() {
-        // Define data de hoje
         document.getElementById('fData').value = new Date().toISOString().split('T')[0];
-        
-        // Relógio
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString('pt-BR'); }, 1000);
-        
-        // Inicia
         await carregarBanco();
-        setInterval(carregarBanco, 300000); // 5 min
+        setInterval(carregarBanco, 300000); 
     }
 
     async function carregarBanco() {
@@ -140,123 +205,139 @@
             const r = await fetch('dados_loterias.json?v=' + Date.now());
             if(r.ok) {
                 const t = await r.text();
-                bancoTotal = t ? JSON.parse(t) : [];
+                // Limpeza de duplicatas no carregamento
+                const bruto = t ? JSON.parse(t) : [];
+                bancoTotal = removerDuplicatas(bruto);
                 
-                document.getElementById('lSvr').className = 'led active';
-                document.getElementById('tSvr').innerText = 'ONLINE';
+                document.getElementById('led').className = 'status-dot ok';
+                document.getElementById('statusTxt').innerText = 'ONLINE E SINCRONIZADO';
                 
                 povoarFiltros();
-                processarDados();
+                renderizarTudo();
             }
         } catch (e) { console.log(e); }
     }
 
-    function povoarFiltros() {
-        const selLot = document.getElementById('fLoteria');
-        const selMod = document.getElementById('fMod');
-        const loterias = [...new Set(bancoTotal.map(i => i.loteria))].sort();
-        const mods = [...new Set(bancoTotal.map(i => i.modalidade || 'Outros'))].sort();
-        
-        if(selLot.options.length <= 1) loterias.forEach(l => selLot.add(new Option(l, l)));
-        if(selMod.options.length <= 1) mods.forEach(m => selMod.add(new Option(m, m)));
+    // Função Extra para garantir limpeza visual
+    function removerDuplicatas(lista) {
+        const unicos = [];
+        const chavesVistas = new Set();
+        lista.forEach(item => {
+            const chave = `${item.loteria}-${item.horario_extracao}-${item.numero_sorteado}-${item.valor}`;
+            if (!chavesVistas.has(chave)) {
+                chavesVistas.add(chave);
+                unicos.push(item);
+            }
+        });
+        return unicos;
     }
 
-    function processarDados() {
+    function povoarFiltros() {
+        const sel = document.getElementById('fLoteria');
+        const atuais = new Set(Array.from(sel.options).map(o => o.value));
+        const loterias = [...new Set(bancoTotal.map(i => i.loteria))].sort();
+        
+        loterias.forEach(l => {
+            if(!atuais.has(l)) sel.add(new Option(l, l));
+        });
+    }
+
+    function renderizarTudo() {
+        // 1. Aplica Filtros
         const dataF = document.getElementById('fData').value.split('-').reverse().join('/');
         const lotF = document.getElementById('fLoteria').value;
-        const modF = document.getElementById('fMod').value;
+        const turnoF = document.getElementById('fTurno').value;
 
-        // Filtro Principal
         const filtrados = bancoTotal.filter(item => {
+            // Filtro Data
             const matchData = !document.getElementById('fData').value || item.dia === dataF;
+            // Filtro Loteria
             const matchLot = !lotF || item.loteria === lotF;
-            const matchMod = !modF || (item.modalidade || 'Outros') === modF;
-            return matchData && matchLot && matchMod;
-        });
-
-        renderizarTabela(filtrados);
-        gerarRelatorioConsolidado(filtrados);
-        calcularPainelFinanceiro();
-    }
-
-    function gerarRelatorioConsolidado(dados) {
-        // Agrupa por Nome da Loteria
-        const resumo = {};
-        let totalGeralDia = 0;
-
-        dados.forEach(item => {
-            const chave = item.loteria;
-            const val = parseFloat(item.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
             
-            if(!resumo[chave]) resumo[chave] = { total: 0, qtd: 0 };
-            resumo[chave].total += val;
-            resumo[chave].qtd += 1;
-            totalGeralDia += val;
+            // Filtro Turno
+            const hora = parseInt(item.horario_extracao.split(':')[0]);
+            let matchTurno = true;
+            if (turnoF === 'manha') matchTurno = hora < 12;
+            if (turnoF === 'tarde') matchTurno = hora >= 12 && hora < 18;
+            if (turnoF === 'noite') matchTurno = hora >= 18;
+
+            return matchData && matchLot && matchTurno;
         });
 
-        const grid = document.getElementById('gridRelatorio');
-        grid.innerHTML = Object.keys(resumo).map(k => {
-            const r = resumo[k];
-            return `
-            <div class="report-item">
-                <div class="report-info">
-                    <span class="r-name">${k}</span>
-                    <span class="r-time">${r.qtd} prêmio(s) detectado(s)</span>
-                </div>
-                <div class="r-val">${r.total.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</div>
-            </div>`;
-        }).join('') || '<div style="color:#666;font-size:11px;padding:10px">Nenhuma extração registrada nesta data.</div>';
-
-        document.getElementById('totalDia').innerText = totalGeralDia.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+        // 2. Renderiza Lista Principal
+        renderizarTabela(filtrados);
+        
+        // 3. Renderiza Matriz e Cards (Cálculos Financeiros)
+        calcularFinanceiroGlobal();
+        renderizarMatriz(filtrados); // Matriz baseada no filtro
     }
 
     function renderizarTabela(dados) {
         const corpo = document.getElementById('corpoTabela');
+        document.getElementById('contadorLinhas').innerText = `${dados.length} registros encontrados`;
+
         corpo.innerHTML = dados.slice().reverse().map(i => {
-            // Define estilo da badge
             const mod = i.modalidade ? i.modalidade.toUpperCase() : 'GERAL';
-            let badgeClass = 'bg-normal';
-            if(mod.includes('MILHAR')) badgeClass = 'bg-milhar';
-            if(mod.includes('CENTENA')) badgeClass = 'bg-centena';
-            
-            // Número (se não tiver, mostra ---)
-            const numero = i.numero_sorteado || i.numero || '---';
+            let badge = 'b-normal';
+            if(mod.includes('MILHAR')) badge = 'b-milhar';
+            if(mod.includes('CENTENA')) badge = 'b-centena';
 
             return `
-                <tr class="${i.suspeito ? 'row-suspect' : ''}">
-                    <td style="font-family:'JetBrains Mono'">${i.horario_extracao}</td>
-                    <td><strong>${i.loteria}</strong></td>
-                    <td><span class="badge ${badgeClass}">${mod}</span></td>
-                    <td><span class="num-destaque">${numero}</span></td>
-                    <td style="color:var(--dim)">${i.ganhador.substring(0,20)}</td>
-                    <td style="color:var(--success);font-weight:700;font-family:'JetBrains Mono'">${i.valor}</td>
-                </tr>
-            `;
-        }).join('') || '<tr><td colspan="6" style="padding:30px;text-align:center;color:#444">NADA ENCONTRADO</td></tr>';
+            <tr>
+                <td class="cell-time">${i.horario_extracao}</td>
+                <td class="cell-lot">${i.loteria}</td>
+                <td><span class="badge ${badge}">${mod}</span></td>
+                <td><span class="cell-num">${i.numero_sorteado || i.numero || '---'}</span></td>
+                <td style="color:#ddd">${i.ganhador}</td>
+                <td class="cell-val">${i.valor}</td>
+            </tr>`;
+        }).join('') || '<tr><td colspan="6" style="padding:40px; text-align:center; color:#555">Nenhum registro com os filtros atuais.</td></tr>';
     }
 
-    function calcularPainelFinanceiro() {
-        // Lógica financeira global (independente do filtro de data da tabela)
+    function renderizarMatriz(dadosDoFiltro) {
+        // Agrupa por loteria
+        const resumo = {};
+        dadosDoFiltro.forEach(i => {
+            const k = i.loteria;
+            const v = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+            if(!resumo[k]) resumo[k] = { qtd: 0, total: 0 };
+            resumo[k].qtd++;
+            resumo[k].total += v;
+        });
+
+        const corpo = document.getElementById('corpoMatriz');
+        corpo.innerHTML = Object.keys(resumo).map(k => `
+            <tr class="mt-row">
+                <td class="mt-name">${k}</td>
+                <td style="text-align:right; font-family:'JetBrains Mono'">${resumo[k].qtd}</td>
+                <td style="text-align:right; font-family:'JetBrains Mono'; color:#00e676">
+                    ${resumo[k].total.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function calcularFinanceiroGlobal() {
         const hoje = new Date();
-        const dataHoje = hoje.toLocaleDateString('pt-BR');
-        let sHoje=0, sSemana=0, sMes=0;
+        const strHoje = hoje.toLocaleDateString('pt-BR');
+        let sHoje=0, sSem=0, sMes=0, qtd=0;
 
         bancoTotal.forEach(i => {
             const v = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
             const partes = i.dia.split('/');
             const dItem = new Date(partes[2], partes[1]-1, partes[0]);
             
-            if(i.dia === dataHoje) sHoje += v;
-            if(dItem.getMonth() === hoje.getMonth() && dItem.getFullYear() === hoje.getFullYear()) sMes += v;
-            
-            const diffDias = (hoje - dItem)/(1000*60*60*24);
-            if(diffDias >= 0 && diffDias <= 7) sSemana += v;
+            if(i.dia === strHoje) sHoje += v;
+            if(dItem.getMonth() === hoje.getMonth()) sMes += v;
+            if((hoje - dItem)/(1000*60*60*24) <= 7) sSem += v;
+            qtd++;
         });
 
         const fmt = {style:'currency', currency:'BRL'};
-        document.getElementById('resHoje').innerText = sHoje.toLocaleString('pt-BR', fmt);
-        document.getElementById('resSemana').innerText = sSemana.toLocaleString('pt-BR', fmt);
-        document.getElementById('resMes').innerText = sMes.toLocaleString('pt-BR', fmt);
+        document.getElementById('totHoje').innerText = sHoje.toLocaleString('pt-BR', fmt);
+        document.getElementById('totSemana').innerText = sSem.toLocaleString('pt-BR', fmt);
+        document.getElementById('totMes').innerText = sMes.toLocaleString('pt-BR', fmt);
+        document.getElementById('totTicket').innerText = qtd ? (sMes/qtd).toLocaleString('pt-BR', fmt) : 'R$ 0,00';
     }
 
     iniciar();
