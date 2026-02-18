@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Real-Time Auditoria</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .card { background: #1e293b; padding: 15px; border-radius: 10px; border-top: 4px solid #3b82f6; }
+        .valor { color: #4ade80; font-size: 1.2em; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th, td { padding: 12px; border-bottom: 1px solid #334155; text-align: left; }
+    </style>
+</head>
+<body>
+    <h1>📊 Resumo das Loterias (Hoje)</h1>
+    <div id="resumo" class="grid">Carregando resumo...</div>
+
+    <h2>📜 Histórico Detalhado (Auditoria)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Dia</th>
+                <th>Hora Extração</th>
+                <th>Loteria</th>
+                <th>Ganhador</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody id="tabela"></tbody>
+    </table>
+
+    <script>
+        async function carregar() {
+            const res = await fetch('dados_loterias.json?t=' + Date.now());
+            const dados = await res.json();
+            const hoje = new Date().toLocaleDateString('pt-BR');
+            
+            // Gerar Resumo por Loteria
+            const resumoObj = {};
+            dados.filter(d => d.dia === hoje).forEach(s => {
+                if(!resumoObj[s.loteria]) resumoObj[s.loteria] = { count: 0, ultimo: s.valor };
+                resumoObj[s.loteria].count++;
+                resumoObj[s.loteria].ultimo = s.valor;
+            });
+
+            document.getElementById('resumo').innerHTML = Object.keys(resumoObj).map(lot => `
+                <div class="card">
+                    <h3>${lot}</h3>
+                    <p>Sorteios hoje: <strong>${resumoObj[lot].count}</strong></p>
+                    <p>Último prêmio: <span class="valor">${resumoObj[lot].ultimo}</span></p>
+                </div>
+            `).join('');
+
+            // Preencher Tabela Completa
+            document.getElementById('tabela').innerHTML = dados.slice().reverse().map(i => `
+                <tr>
+                    <td>${i.dia}</td>
+                    <td>${i.horario_extracao}</td>
+                    <td>${i.loteria}</td>
+                    <td>${i.ganhador}</td>
+                    <td class="valor">${i.valor}</td>
+                </tr>
+            `).join('');
+        }
+        carregar();
+        setInterval(carregar, 60000); // Atualiza a tela a cada minuto
+    </script>
+</body>
+</html>
