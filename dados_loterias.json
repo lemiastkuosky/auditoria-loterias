@@ -64,5 +64,16 @@
         "valor": "R$ 27.000,00",
         "timestamp_local": "2026-02-18T19:03:14.709137",
         "suspeito": false
+    },
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "19:35",
+        "loteria": "PT SP 19HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "355",
+        "ganhador": "Unidade: 568371",
+        "valor": "R$ 900,00",
+        "timestamp_local": "2026-02-18T19:52:52.255086",
+        "suspeito": false
     }
 ]
