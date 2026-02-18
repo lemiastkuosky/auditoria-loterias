@@ -20,5 +20,16 @@
         "valor": "R$ 1.664,00",
         "timestamp_local": "2026-02-18T15:29:28.766327",
         "suspeito": false
+    },
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "15:52",
+        "loteria": "LT LOTECE 15H45",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "3253",
+        "ganhador": "Unidade: 894121",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-18T16:29:30.418618",
+        "suspeito": false
     }
 ]
