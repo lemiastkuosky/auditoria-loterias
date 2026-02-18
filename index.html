@@ -3,56 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Auditoria Pro | Let's 3D</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Auditoria Master | Cinza Chumbo Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --bg: #0b0f1a; --surface: #161b2a; --border: #2d3343; --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --text: #f8fafc; --text-muted: #94a3b8; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; box-sizing: border-box; }
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-        .stat-card span { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
-        .stat-card .value { font-size: 24px; font-weight: 700; }
-        .chart-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 30px; height: 300px; }
-        .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
-        th { background: #1c2333; padding: 15px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 13px; }
-        .price-tag { color: var(--success); font-weight: 700; }
-        footer { background: var(--surface); border-top: 1px solid var(--border); padding: 10px 20px; position: sticky; bottom: 0; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
-        .status-item { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-muted); }
-        .led { width: 10px; height: 10px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 5px var(--danger); transition: 0.3s; }
+        :root {
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --surface-light: #262626;
+            --border: #333333;
+            --text: #e0e0e0;
+            --text-dim: #888888;
+            --accent: #b0b0b0; /* Prata/Chumbo */
+            --success: #4caf50;
+            --danger: #cf6679;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1300px; margin: 0 auto; padding: 30px; width: 100%; box-sizing: border-box; flex: 1; }
+
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
+        .header h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: 1px; color: var(--accent); }
+
+        /* Stats Section */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px; }
+        .stat-card span { display: block; font-size: 10px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+        .stat-card .value { font-family: 'Roboto Mono', monospace; font-size: 24px; font-weight: 700; }
+
+        /* Advanced Filters */
+        .filters { 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px;
+            align-items: end;
+        }
+        .filter-group { display: flex; flex-direction: column; gap: 8px; }
+        .filter-group label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; }
+        input, select { background: var(--surface-light); border: 1px solid var(--border); color: var(--text); padding: 10px; border-radius: 2px; outline: none; font-size: 13px; }
+        input:focus { border-color: var(--accent); }
+
+        /* Table Style */
+        .table-section { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: var(--surface-light); padding: 15px; font-size: 11px; color: var(--text-dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 13px; font-family: 'Roboto Mono', monospace; }
+        tr:hover { background: #222222; }
+        .val-text { color: var(--success); font-weight: 700; }
+
+        /* Footer Status */
+        footer { background: #0a0a0a; border-top: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; bottom: 0; }
+        .status-box { display: flex; gap: 25px; }
+        .status-item { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-dim); font-weight: 700; }
+        .led { width: 10px; height: 10px; border-radius: 50%; background: var(--danger); box-shadow: 0 0 5px var(--danger); transition: 0.5s; }
         .led.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+
+        .chart-container { background: var(--surface); border: 1px solid var(--border); padding: 20px; height: 250px; margin-bottom: 30px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1 style="color: var(--primary); font-size: 18px;">AUDITORIA DE EXTRAÇÕES PRO</h1>
-        <input type="date" id="filtroData" onchange="renderizarTudo()" style="background:#161b2a; color:#fff; border:1px solid #2d3343; padding:5px; border-radius:5px;">
+        <h1>SISTEMA DE AUDITORIA DE EXTRAÇÕES v4.0</h1>
+        <div style="font-family: 'Roboto Mono'; font-size: 12px; color: var(--text-dim);" id="clock">--/--/-- 00:00:00</div>
+    </div>
+
+    <div class="filters">
+        <div class="filter-group">
+            <label>Data da Extração</label>
+            <input type="date" id="fData" onchange="processarDados()">
+        </div>
+        <div class="filter-group">
+            <label>Modalidade / Loteria</label>
+            <select id="fLoteria" onchange="processarDados()">
+                <option value="">TODAS AS LOTERIAS</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Tipo de Prêmio</label>
+            <select id="fTipo" onchange="processarDados()">
+                <option value="">TODOS OS TIPOS</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Busca Livre (Ganhador/Valor)</label>
+            <input type="text" id="fBusca" placeholder="Pesquisar..." oninput="processarDados()">
+        </div>
+        <button onclick="resetar()" style="background: var(--surface-light); color: var(--text); border: 1px solid var(--border); padding: 10px; cursor: pointer; font-size: 11px; font-weight: 700;">RESETAR</button>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card"><span>Total Premiado (Dia)</span><div id="valDia" class="value">R$ 0,00</div></div>
-        <div class="stat-card"><span>Extrações Auditadas</span><div id="extCount" class="value">0</div></div>
-        <div class="stat-card"><span>Pico de Horário</span><div id="picoHora" class="value">--:--</div></div>
+        <div class="stat-card"><span>Volume Total Auditado (Hoje)</span><div class="value" id="sVolume">R$ 0,00</div></div>
+        <div class="stat-card"><span>Extrações Identificadas</span><div class="value" id="sQtd">0</div></div>
+        <div class="stat-card"><span>Ticket Médio Prêmios</span><div class="value" id="sMedio">R$ 0,00</div></div>
+        <div class="stat-card"><span>Horário de Pico</span><div class="value" id="sPico">--:--</div></div>
     </div>
 
-    <div class="chart-section">
-        <canvas id="meuGrafico"></canvas>
+    <div class="chart-container">
+        <canvas id="graficoVolume"></canvas>
     </div>
 
     <div class="table-section">
         <table>
             <thead>
                 <tr>
-                    <th>Horário</th>
-                    <th>Loteria</th>
-                    <th>Ganhador (Oculto)</th>
-                    <th>Prêmio Pago</th>
+                    <th>HORÁRIO</th>
+                    <th>LOTERIA</th>
+                    <th>TIPO PRÊMIO</th>
+                    <th>IDENTIFICAÇÃO</th>
+                    <th>VALOR PAGO</th>
                 </tr>
             </thead>
             <tbody id="tabelaDados"></tbody>
@@ -61,82 +135,141 @@
 </div>
 
 <footer>
-    <div style="display:flex; gap:20px;">
-        <div class="status-item"><div id="ledGit" class="led"></div> GITHUB</div>
-        <div class="status-item"><div id="ledSvr" class="led"></div> SERVIDOR API</div>
+    <div class="status-box">
+        <div class="status-item"><div id="ledGit" class="led"></div> GITHUB PAGES</div>
+        <div class="status-item"><div id="ledApi" class="led"></div> CONEXÃO SERVIDOR</div>
     </div>
-    <div id="syncTime" style="font-size:10px; color:var(--text-muted);">SINCRONIZANDO...</div>
+    <div id="syncStatus" style="font-size: 10px; color: var(--text-dim); font-family: 'Roboto Mono';">SINCRONIZANDO...</div>
 </footer>
 
 <script>
-    let db = [];
-    let grafico = null;
+    let rawData = [];
+    let myChart = null;
 
     async function init() {
-        document.getElementById('filtroData').value = new Date().toISOString().split('T')[0];
+        document.getElementById('fData').value = new Date().toISOString().split('T')[0];
         document.getElementById('ledGit').classList.add('active');
-        await carregar();
-        setInterval(carregar, 60000);
+        await atualizar();
+        setInterval(atualizar, 60000);
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString(); }, 1000);
     }
 
-    async function carregar() {
+    async function atualizar() {
         try {
             const res = await fetch('dados_loterias.json?v=' + Date.now());
             if (!res.ok) throw new Error();
-            db = await res.json();
+            rawData = await res.json();
             
-            validarSvr(db);
-            renderizarTudo();
-            document.getElementById('syncTime').innerText = "ÚLTIMA ATUALIZAÇÃO: " + new Date().toLocaleTimeString();
+            povoarFiltros();
+            validarServer();
+            processarDados();
+            document.getElementById('syncStatus').innerText = "ÚLTIMA SINCRONIZAÇÃO: " + new Date().toLocaleTimeString();
         } catch (e) {
-            document.getElementById('ledSvr').classList.remove('active');
+            document.getElementById('ledApi').classList.remove('active');
         }
     }
 
-    function validarSvr(dados) {
-        if (!dados.length) return;
-        const ultima = new Date(dados[dados.length-1].timestamp_local || new Date());
-        const diff = (new Date() - ultima) / (1000 * 60);
-        (diff < 40) ? document.getElementById('ledSvr').classList.add('active') : document.getElementById('ledSvr').classList.remove('active');
+    function povoarFiltros() {
+        const loterias = [...new Set(rawData.map(i => i.loteria))];
+        const tipos = [...new Set(rawData.map(i => i.premio_tipo))];
+        
+        const selLot = document.getElementById('fLoteria');
+        const selTipo = document.getElementById('fTipo');
+
+        if(selLot.options.length <= 1) {
+            loterias.forEach(l => selLot.add(new Option(l, l)));
+            tipos.forEach(t => selTipo.add(new Option(t, t)));
+        }
     }
 
-    function renderizarTudo() {
-        const dataSel = document.getElementById('filtroData').value.split('-').reverse().join('/');
-        const filtrados = db.filter(i => i.dia === dataSel);
-        
-        let soma = 0;
-        const horasCount = {};
+    function validarServer() {
+        if(!rawData.length) return;
+        const ultima = new Date(rawData[rawData.length-1].timestamp_local);
+        const diff = (new Date() - ultima) / (1000 * 60);
+        (diff < 45) ? document.getElementById('ledApi').classList.add('active') : document.getElementById('ledApi').classList.remove('active');
+    }
 
-        document.getElementById('tabelaDados').innerHTML = filtrados.slice().reverse().map(i => {
+    function processarDados() {
+        const dataF = document.getElementById('fData').value.split('-').reverse().join('/');
+        const lotF = document.getElementById('fLoteria').value;
+        const tipoF = document.getElementById('fTipo').value;
+        const buscaF = document.getElementById('fBusca').value.toLowerCase();
+
+        const filtrados = rawData.filter(i => {
+            return i.dia === dataF &&
+                   (lotF === "" || i.loteria === lotF) &&
+                   (tipoF === "" || i.premio_tipo === tipoF) &&
+                   (i.ganhador.toLowerCase().includes(buscaF) || i.valor.includes(buscaF));
+        });
+
+        render(filtrados);
+    }
+
+    function render(dados) {
+        let soma = 0;
+        const hCount = {};
+
+        document.getElementById('tabelaDados').innerHTML = dados.slice().reverse().map(i => {
             const v = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.'));
             soma += isNaN(v) ? 0 : v;
             
             const h = i.horario_extracao.split(':')[0] + ':00';
-            horasCount[h] = (horasCount[h] || 0) + v;
+            hCount[h] = (hCount[h] || 0) + v;
 
-            return `<tr><td>${i.horario_extracao}</td><td><span style="background:#2d3343; padding:3px 8px; border-radius:4px; font-size:11px;">${i.loteria}</span></td><td>***</td><td class="price-tag">${i.valor}</td></tr>`;
-        }).join('') || '<tr><td colspan="4" style="text-align:center; padding:30px;">Sem dados para esta data.</td></tr>';
+            return `<tr>
+                <td>${i.horario_extracao}</td>
+                <td style="color:var(--accent)">${i.loteria}</td>
+                <td><span style="border:1px solid var(--border); padding:2px 5px; font-size:10px;">${i.premio_tipo}</span></td>
+                <td style="color:var(--text-dim)">${i.ganhador.substring(0,8)}***</td>
+                <td class="val-text">${i.valor}</td>
+            </tr>`;
+        }).join('') || '<tr><td colspan="5" style="text-align:center; padding:50px; color:var(--text-dim)">SEM REGISTROS PARA ESTA COMBINAÇÃO</td></tr>';
 
-        document.getElementById('valDia').innerText = soma.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
-        document.getElementById('extCount').innerText = filtrados.length;
+        document.getElementById('sVolume').innerText = soma.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+        document.getElementById('sQtd').innerText = dados.length;
+        document.getElementById('sMedio').innerText = dados.length ? (soma/dados.length).toLocaleString('pt-BR', {style:'currency', currency:'BRL'}) : 'R$ 0,00';
         
-        const topH = Object.keys(horasCount).reduce((a, b) => horasCount[a] > horasCount[b] ? a : b, "--:--");
-        document.getElementById('picoHora').innerText = topH;
+        const topH = Object.keys(hCount).reduce((a, b) => hCount[a] > hCount[b] ? a : b, "--:--");
+        document.getElementById('sPico').innerText = topH;
 
-        atualizarGrafico(horasCount);
+        gerarGrafico(hCount);
     }
 
-    function atualizarGrafico(dados) {
-        const ctx = document.getElementById('meuGrafico').getContext('2d');
-        const labels = Object.keys(dados).sort();
-        const valores = labels.map(l => dados[l]);
+    function gerarGrafico(dadosH) {
+        const ctx = document.getElementById('graficoVolume').getContext('2d');
+        const labels = Object.keys(dadosH).sort();
+        const vals = labels.map(l => dadosH[l]);
 
-        if (grafico) grafico.destroy();
-        grafico = new Chart(ctx, {
-            type: 'bar',
-            data: { labels, datasets: [{ label: 'Volume por Horário (R$)', data: valores, backgroundColor: '#3b82f6', borderRadius: 5 }] },
-            options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#2d3343' } }, x: { grid: { display: false } } } }
+        if (myChart) myChart.destroy();
+        myChart = new Chart(ctx, {
+            type: 'line',
+            data: { 
+                labels, 
+                datasets: [{ 
+                    label: 'Volume (R$)', 
+                    data: vals, 
+                    borderColor: '#757575', 
+                    backgroundColor: 'rgba(176, 176, 176, 0.1)', 
+                    fill: true,
+                    tension: 0.4 
+                }] 
+            },
+            options: { 
+                maintainAspectRatio: false, 
+                plugins: { legend: { display: false } },
+                scales: { 
+                    y: { beginAtZero: true, grid: { color: '#333' }, ticks: { color: '#888' } },
+                    x: { grid: { display: false }, ticks: { color: '#888' } }
+                } 
+            }
         });
+    }
+
+    function resetar() {
+        document.getElementById('fLoteria').value = "";
+        document.getElementById('fTipo').value = "";
+        document.getElementById('fBusca').value = "";
+        processarDados();
     }
 
     init();
