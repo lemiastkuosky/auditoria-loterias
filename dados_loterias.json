@@ -29,15 +29,5 @@
         "timestamp_local": "2026-02-18T14:40:51.339437",
         "suspeito": false
     },
-    {
-        "dia": "18/02/2026",
-        "horario_extracao": "14:31",
-        "loteria": "LT PT RIO 14HS",
-        "modalidade": "MILHAR",
-        "numero_sorteado": "1477",
-        "ganhador": "Unidade: 967618",
-        "valor": "R$ 23.000,00",
-        "timestamp_local": "2026-02-18T14:59:56.301046",
-        "suspeito": false
-    }
+
 ]
