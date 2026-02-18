@@ -11,7 +11,7 @@
             --bg: #0d0d0d; --surface: #1a1a1a; --border: #2a2a2a; 
             --accent: #d1d1d1; --text: #ffffff; --dim: #888; 
             --warn: #ff9800; --success: #4caf50; --danger: #f44336; 
-            --milhar: #2196f3; --centena: #9c27b0;
+            --info: #2196f3;
         }
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
@@ -21,38 +21,36 @@
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
         .header h1 { font-size: 16px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0; }
         
-        /* PAINEL FINANCEIRO (Cards Escuros) */
+        /* PAINEL FINANCEIRO */
         .summary-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #333; border: 1px solid #333; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
         .sum-item { background: #111; text-align: center; padding: 15px; }
         .sum-item h3 { font-size: 9px; color: #888; margin: 0 0 5px 0; letter-spacing: 1px; }
         .sum-item p { font-size: 16px; color: #fff; margin: 0; font-family: 'JetBrains Mono'; font-weight: 700; }
         .sum-item.highlight p { color: var(--success); }
 
-        /* RELATÓRIO POR EXTRAÇÃO (Novo Bloco) */
+        /* RELATÓRIO POR EXTRAÇÃO */
         .report-box { background: #151515; border: 1px solid var(--border); border-radius: 4px; padding: 15px; margin-bottom: 25px; }
         .report-title { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid #222; padding-bottom: 5px; display: flex; justify-content: space-between; }
         .report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
         .report-item { background: #0a0a0a; border: 1px solid #222; padding: 10px; border-radius: 3px; display: flex; justify-content: space-between; align-items: center; }
         .report-info { display: flex; flex-direction: column; }
-        .r-name { font-size: 11px; font-weight: 700; color: #fff; }
+        .r-name { font-size: 12px; font-weight: 700; color: #fff; }
         .r-time { font-size: 10px; color: var(--dim); font-family: 'JetBrains Mono'; }
         .r-val { font-family: 'JetBrains Mono'; font-size: 13px; color: var(--success); font-weight: 700; }
 
-        /* TABELA */
+        /* TABELA E ELEMENTOS */
         .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow-x: auto; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; text-align: left; min-width: 800px; }
         th { background: #222; padding: 12px; font-size: 10px; color: var(--dim); text-transform: uppercase; border-bottom: 1px solid var(--border); white-space: nowrap; }
         td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 12px; white-space: nowrap; vertical-align: middle; }
         
         .row-suspect { background: rgba(255, 152, 0, 0.05); border-left: 3px solid var(--warn); }
-        
-        /* Badges de Modalidade e Número */
         .badge { padding: 3px 6px; border-radius: 3px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
-        .bg-milhar { background: rgba(33, 150, 243, 0.15); color: var(--milhar); border: 1px solid rgba(33, 150, 243, 0.3); }
-        .bg-centena { background: rgba(156, 39, 176, 0.15); color: var(--centena); border: 1px solid rgba(156, 39, 176, 0.3); }
+        .bg-milhar { background: rgba(33, 150, 243, 0.2); color: #64b5f6; border: 1px solid rgba(33, 150, 243, 0.3); }
+        .bg-centena { background: rgba(156, 39, 176, 0.2); color: #ba68c8; border: 1px solid rgba(156, 39, 176, 0.3); }
         .bg-normal { background: #333; color: #ccc; }
         
-        .num-destaque { font-family: 'JetBrains Mono'; font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #fff; background: #000; padding: 4px 8px; border-radius: 4px; border: 1px solid #333; display: inline-block; min-width: 50px; text-align: center; }
+        .num-destaque { font-family: 'JetBrains Mono'; font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #fff; background: #000; padding: 2px 6px; border-radius: 3px; border: 1px solid #333; }
 
         /* FILTROS E RODAPÉ */
         .filters { background: var(--surface); border: 1px solid var(--border); padding: 15px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; align-items: flex-end; }
@@ -74,7 +72,7 @@
 
 <div class="container">
     <div class="header">
-        <h1>Auditoria PRO v7.0 | Lets 3D</h1>
+        <h1>Dashboard Lets 3D | Auditoria v7.0</h1>
         <div id="clock" style="font-family: 'JetBrains Mono'; color: var(--dim); font-size: 11px;">--/--/-- 00:00</div>
     </div>
 
@@ -121,14 +119,20 @@
     <div style="font-size:9px;color:#888;font-weight:600"><span id="lSvr" class="led"></span> API: <span id="tSvr">...</span></div>
     <div style="font-size:9px;color:#888;font-weight:700">CRIADO POR LE | v7.0</div>
 </footer>
+
 <script>
     let bancoTotal = [];
 
     async function iniciar() {
+        // Define data de hoje
         document.getElementById('fData').value = new Date().toISOString().split('T')[0];
+        
+        // Relógio
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString('pt-BR'); }, 1000);
+        
+        // Inicia
         await carregarBanco();
-        setInterval(carregarBanco, 300000); // 5 minutos
+        setInterval(carregarBanco, 300000); // 5 min
     }
 
     async function carregarBanco() {
@@ -137,8 +141,10 @@
             if(r.ok) {
                 const t = await r.text();
                 bancoTotal = t ? JSON.parse(t) : [];
+                
                 document.getElementById('lSvr').className = 'led active';
                 document.getElementById('tSvr').innerText = 'ONLINE';
+                
                 povoarFiltros();
                 processarDados();
             }
@@ -174,7 +180,7 @@
     }
 
     function gerarRelatorioConsolidado(dados) {
-        // Agrupa por Nome da Loteria para saber qual pagou mais no dia
+        // Agrupa por Nome da Loteria
         const resumo = {};
         let totalGeralDia = 0;
 
@@ -195,7 +201,7 @@
             <div class="report-item">
                 <div class="report-info">
                     <span class="r-name">${k}</span>
-                    <span class="r-time">${r.qtd} prêmio(s) hoje</span>
+                    <span class="r-time">${r.qtd} prêmio(s) detectado(s)</span>
                 </div>
                 <div class="r-val">${r.total.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</div>
             </div>`;
@@ -207,13 +213,13 @@
     function renderizarTabela(dados) {
         const corpo = document.getElementById('corpoTabela');
         corpo.innerHTML = dados.slice().reverse().map(i => {
-            // Estilo da badge (Milhar Azul / Centena Roxa)
+            // Define estilo da badge
             const mod = i.modalidade ? i.modalidade.toUpperCase() : 'GERAL';
             let badgeClass = 'bg-normal';
             if(mod.includes('MILHAR')) badgeClass = 'bg-milhar';
             if(mod.includes('CENTENA')) badgeClass = 'bg-centena';
             
-            // Número com destaque
+            // Número (se não tiver, mostra ---)
             const numero = i.numero_sorteado || i.numero || '---';
 
             return `
@@ -230,7 +236,7 @@
     }
 
     function calcularPainelFinanceiro() {
-        // Cálculo global (ignora filtro de data da tabela para somar mês e semana)
+        // Lógica financeira global (independente do filtro de data da tabela)
         const hoje = new Date();
         const dataHoje = hoje.toLocaleDateString('pt-BR');
         let sHoje=0, sSemana=0, sMes=0;
