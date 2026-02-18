@@ -6,23 +6,24 @@ from datetime import datetime, timedelta
 URL = "https://api.systemgame.cc/api/v1/app/random-prize"
 ARQUIVO_JSON = 'dados_loterias.json'
 
-def capturar_dados():
+def capturar():
     try:
         response = requests.get(URL, timeout=20)
-        data = response.json().get('data', response.json())
+        res_json = response.json()
+        data = res_json.get('data', res_json)
         
         if not data: return None
 
         fuso_brasilia = datetime.utcnow() - timedelta(hours=3)
         
-        # Extraímos apenas o que importa para a auditoria de extração
         return {
             "dia": fuso_brasilia.strftime("%d/%m/%Y"),
             "horario_extracao": data.get("created_at") or fuso_brasilia.strftime("%H:%M"),
             "loteria": data.get("lottery_name") or "Extração Geral",
-            "premio_tipo": data.get("prize_type") or "Prêmio Unitário", # Tenta pegar se é milhar, centena, etc
+            "premio_tipo": data.get("prize_type") or "Padrão", # Ex: Milhar, Centena, Dezenas
+            "ganhador": data.get("name") or "---",
             "valor": data.get("prize") or "R$ 0,00",
-            "timestamp": fuso_brasilia.isoformat()
+            "timestamp_local": fuso_brasilia.isoformat()
         }
     except:
         return None
@@ -35,7 +36,7 @@ def salvar(novo):
     else:
         historico = []
 
-    # Verifica se já registramos essa extração (mesmo horário, loteria e valor)
+    # Bloqueia duplicados por horário e valor
     if historico and historico[-1]['horario_extracao'] == novo['horario_extracao'] and \
        historico[-1]['loteria'] == novo['loteria'] and historico[-1]['valor'] == novo['valor']:
         return
@@ -45,4 +46,4 @@ def salvar(novo):
         json.dump(historico, f, indent=4, ensure_ascii=False)
 
 if __name__ == "__main__":
-    salvar(capturar_dados())
+    salvar(capturar())
