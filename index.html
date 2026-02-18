@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoria PRO</title>
+    <title>Auditoria PRO v6.5 | Sistema de Extrações</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -16,6 +16,7 @@
             --dim: #888; 
             --warn: #ff9800; 
             --success: #4caf50; 
+            --danger: #f44336;
         }
 
         * { box-sizing: border-box; }
@@ -25,7 +26,6 @@
             background: var(--bg); 
             color: var(--text); 
             margin: 0; 
-            padding: 0; 
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -39,7 +39,6 @@
             width: 100%;
         }
         
-        /* Cabeçalho Profissional */
         .header { 
             display: flex; 
             justify-content: space-between; 
@@ -49,15 +48,8 @@
             margin-bottom: 25px; 
         }
 
-        .header h1 { 
-            font-size: 16px; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
-            color: var(--accent); 
-            margin: 0; 
-        }
+        .header h1 { font-size: 16px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0; }
 
-        /* Dashboard de Métricas */
         .stats-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
@@ -72,22 +64,9 @@
             border-radius: 4px; 
         }
 
-        .stat-card span { 
-            display: block; 
-            font-size: 9px; 
-            color: var(--dim); 
-            text-transform: uppercase; 
-            margin-bottom: 8px; 
-            font-weight: 700; 
-        }
+        .stat-card span { display: block; font-size: 9px; color: var(--dim); text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+        .stat-card .value { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 500; }
 
-        .stat-card .value { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 24px; 
-            font-weight: 500;
-        }
-
-        /* Gráfico de Intensidade */
         .chart-box { 
             background: var(--surface); 
             border: 1px solid var(--border); 
@@ -97,7 +76,6 @@
             border-radius: 4px;
         }
 
-        /* Barra de Filtros Avançados */
         .filters { 
             background: var(--surface); 
             border: 1px solid var(--border); 
@@ -112,31 +90,8 @@
         .filter-group { display: flex; flex-direction: column; gap: 8px; }
         .filter-group label { font-size: 10px; color: var(--dim); text-transform: uppercase; font-weight: 700; }
 
-        select, input { 
-            background: #000; 
-            border: 1px solid var(--border); 
-            color: #fff; 
-            padding: 10px; 
-            font-size: 12px; 
-            border-radius: 4px; 
-            outline: none;
-        }
+        select, input { background: #000; border: 1px solid var(--border); color: #fff; padding: 10px; font-size: 12px; border-radius: 4px; outline: none; }
 
-        .btn-refresh {
-            background: #2a2a2a;
-            color: #fff;
-            border: 1px solid var(--border);
-            padding: 10px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 10px;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-
-        .btn-refresh:hover { background: #333; }
-
-        /* Tabela de Auditoria */
         .table-wrap { 
             background: var(--surface); 
             border: 1px solid var(--border); 
@@ -149,12 +104,11 @@
         th { background: #222; padding: 15px; font-size: 10px; color: var(--dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
         td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 13px; }
         
-        .mono { font-family: 'JetBrains Mono', monospace; }
         .row-suspect { background: rgba(255, 152, 0, 0.05); border-left: 4px solid var(--warn); }
         .warn-badge { background: var(--warn); color: #000; padding: 2px 6px; border-radius: 2px; font-size: 9px; font-weight: 800; }
         .price-up { color: var(--success); font-weight: 700; }
 
-        /* Rodapé de Status Estilizado */
+        /* Rodapé com Status em Texto */
         footer { 
             background: #050505; 
             padding: 12px 30px; 
@@ -168,18 +122,14 @@
             z-index: 100;
         }
 
-        .status-group { display: flex; gap: 20px; }
+        .status-group { display: flex; gap: 25px; }
         .status-item { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 600; color: var(--dim); }
         
-        .led { 
-            width: 8px; 
-            height: 8px; 
-            border-radius: 50%; 
-            background: #333; 
-            transition: 0.5s;
-        }
+        .led { width: 8px; height: 8px; border-radius: 50%; background: #333; }
         .led.active { background: var(--success); box-shadow: 0 0 8px var(--success); }
+        .led.error { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
 
+        .status-label { color: var(--accent); font-weight: 700; }
         .credits { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 1px; }
     </style>
 </head>
@@ -187,13 +137,13 @@
 
 <div class="container">
     <div class="header">
-        <h1>Auditoria Estratégica v6.0</h1>
+        <h1>Auditoria PRO</h1>
         <div id="clock" style="font-family: 'JetBrains Mono'; color: var(--dim); font-size: 12px;">--/--/-- 00:00:00</div>
     </div>
 
     <div class="stats-grid">
         <div class="stat-card">
-            <span>Total Premiado (Filtro)</span>
+            <span>Volume Total Auditado</span>
             <div class="value" id="vTotal" style="color:var(--success)">R$ 0,00</div>
         </div>
         <div class="stat-card">
@@ -201,12 +151,12 @@
             <div class="value" id="vAlertas" style="color:var(--warn)">0</div>
         </div>
         <div class="stat-card">
-            <span>Ticket Médio Prêmios</span>
+            <span>Ticket Médio</span>
             <div class="value" id="vMedia">R$ 0,00</div>
         </div>
         <div class="stat-card">
-            <span>Intervalo de Captura</span>
-            <div class="value" style="font-size: 14px; color: var(--accent);">15 EM 15 MINUTOS</div>
+            <span>Status do Robô</span>
+            <div class="value" id="robotStatus" style="font-size: 14px; color: var(--accent);">INICIALIZANDO...</div>
         </div>
     </div>
 
@@ -220,7 +170,7 @@
             <input type="date" id="fData" onchange="processarDados()">
         </div>
         <div class="filter-group">
-            <label>Loteria / Extração</label>
+            <label>Extração</label>
             <select id="fLoteria" onchange="processarDados()">
                 <option value="">TODAS AS LOTERIAS</option>
             </select>
@@ -228,15 +178,11 @@
         <div class="filter-group">
             <label>Análise de Risco</label>
             <select id="fSuspeito" onchange="processarDados()">
-                <option value="todos">TODOS OS REGISTROS</option>
-                <option value="sim">APENAS SUSPEITOS ⚠️</option>
+                <option value="todos">GERAL</option>
+                <option value="sim">SUSPEITOS ⚠️</option>
             </select>
         </div>
-        <div class="filter-group">
-            <label>Busca Rápida</label>
-            <input type="text" id="fBusca" placeholder="Pesquisar..." oninput="processarDados()">
-        </div>
-        <button class="btn-refresh" onclick="carregarBanco()">Atualizar Agora</button>
+        <button onclick="carregarBanco()" style="background:#333; color:#fff; border:none; padding:10px; border-radius:4px; cursor:pointer; font-weight:700; font-size:10px;">ATUALIZAR DADOS</button>
     </div>
 
     <div class="table-wrap">
@@ -244,86 +190,94 @@
             <thead>
                 <tr>
                     <th>Horário</th>
-                    <th>Extração / Loteria</th>
-                    <th>Tipo de Prêmio</th>
+                    <th>Extração</th>
+                    <th>Tipo</th>
                     <th>Identificação</th>
-                    <th>Valor do Prêmio</th>
+                    <th>Valor</th>
                     <th>Auditoria</th>
                 </tr>
             </thead>
-            <tbody id="corpoTabela">
-                </tbody>
+            <tbody id="corpoTabela"></tbody>
         </table>
     </div>
 </div>
 
 <footer>
     <div class="status-group">
-        <div class="status-item"><div id="lGit" class="led active"></div> GITHUB PAGES</div>
-        <div class="status-item"><div id="lSvr" class="led"></div> SINCRONIZAÇÃO API</div>
-        <div id="lastSync" style="font-family: 'JetBrains Mono'; margin-left: 10px;">SYNC: --:--</div>
+        <div class="status-item">
+            <div id="lGit" class="led"></div> GITHUB: <span id="tGit" class="status-label">OFFLINE</span>
+        </div>
+        <div class="status-item">
+            <div id="lSvr" class="led"></div> API SERVIDOR: <span id="tSvr" class="status-label">AGUARDANDO...</span>
+        </div>
     </div>
     
-    <div class="credits">CRIADO POR LE | v6.0</div>
+    <div class="credits">CRIADO POR LE | v6.5</div>
 </footer>
 
 <script>
     let bancoTotal = [];
     let chartInstancia = null;
 
-    // Inicialização
     async function iniciar() {
         document.getElementById('fData').value = new Date().toISOString().split('T')[0];
-        // Relógio
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleString('pt-BR');
-        }, 1000);
-
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString('pt-BR'); }, 1000);
         await carregarBanco();
-        
-        // ATUALIZAÇÃO AUTOMÁTICA EM 5 MINUTOS
-        setInterval(carregarBanco, 300000);
+        setInterval(carregarBanco, 300000); // 5 min
     }
 
     async function carregarBanco() {
+        const lGit = document.getElementById('lGit');
+        const tGit = document.getElementById('tGit');
+        const robotStatus = document.getElementById('robotStatus');
+
         try {
             const response = await fetch('dados_loterias.json?v=' + Date.now());
+            if(!response.ok) throw new Error();
+            
             bancoTotal = await response.json();
             
+            // Sucesso no GitHub
+            lGit.className = 'led active';
+            tGit.innerText = 'ONLINE';
+            robotStatus.innerText = 'ATIVO (15m)';
+
             povoarFiltroLoterias();
             validarStatusServidor();
             processarDados();
-            
-            document.getElementById('lastSync').innerText = "SYNC: " + new Date().toLocaleTimeString();
         } catch (e) {
-            console.error("Erro ao carregar dados_loterias.json. Verifique se o robô já rodou.");
+            lGit.className = 'led error';
+            tGit.innerText = 'FALHA DE LINK';
+            robotStatus.innerText = 'ERRO NO ARQUIVO';
+        }
+    }
+
+    function validarStatusServidor() {
+        const lSvr = document.getElementById('lSvr');
+        const tSvr = document.getElementById('tSvr');
+
+        if(!bancoTotal.length) {
+            tSvr.innerText = 'SEM DADOS';
+            return;
+        }
+
+        const ultimaData = new Date(bancoTotal[bancoTotal.length - 1].timestamp_local);
+        const diffMinutos = (new Date() - ultimaData) / (1000 * 60);
+
+        if(diffMinutos < 45) {
+            lSvr.className = 'led active';
+            tSvr.innerText = 'SINCRONIZADO';
+        } else {
+            lSvr.className = 'led';
+            tSvr.innerText = 'ATRASADO';
         }
     }
 
     function povoarFiltroLoterias() {
         const select = document.getElementById('fLoteria');
         const loteriasUnicas = [...new Set(bancoTotal.map(i => i.loteria))].sort();
-        
         if(select.options.length <= 1) {
-            loteriasUnicas.forEach(l => {
-                const opt = new Option(l, l);
-                select.add(opt);
-            });
-        }
-    }
-
-    function validarStatusServidor() {
-        if(!bancoTotal.length) return;
-        const ultimaData = new Date(bancoTotal[bancoTotal.length - 1].timestamp_local);
-        const agora = new Date();
-        const diffMinutos = (agora - ultimaData) / (1000 * 60);
-
-        // Se o último registro foi há menos de 45 minutos, LED verde
-        const led = document.getElementById('lSvr');
-        if(diffMinutos < 45) {
-            led.classList.add('active');
-        } else {
-            led.classList.remove('active');
+            loteriasUnicas.forEach(l => select.add(new Option(l, l)));
         }
     }
 
@@ -331,15 +285,12 @@
         const dataF = document.getElementById('fData').value.split('-').reverse().join('/');
         const lotF = document.getElementById('fLoteria').value;
         const suspF = document.getElementById('fSuspeito').value;
-        const buscaF = document.getElementById('fBusca').value.toLowerCase();
 
         const filtrados = bancoTotal.filter(item => {
             const matchData = !document.getElementById('fData').value || item.dia === dataF;
             const matchLot = !lotF || item.loteria === lotF;
             const matchSusp = suspF === 'todos' || (suspF === 'sim' && item.suspeito);
-            const matchBusca = item.ganhador.toLowerCase().includes(buscaF) || item.valor.includes(buscaF);
-
-            return matchData && matchLot && matchSusp && matchBusca;
+            return matchData && matchLot && matchSusp;
         });
 
         renderizar(filtrados);
@@ -352,13 +303,9 @@
         const intensidadeHoras = Array(24).fill(0);
 
         corpo.innerHTML = dados.slice().reverse().map(i => {
-            // Cálculo financeiro
             const vLimpo = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.'));
             somaValores += isNaN(vLimpo) ? 0 : vLimpo;
-            
             if(i.suspeito) countSuspeitos++;
-
-            // Intensidade por hora para o gráfico
             const hora = parseInt(i.horario_extracao.split(':')[0]);
             intensidadeHoras[hora] += isNaN(vLimpo) ? 0 : vLimpo;
 
@@ -367,34 +314,30 @@
                     <td class="mono">${i.horario_extracao}</td>
                     <td><strong>${i.loteria}</strong></td>
                     <td><span class="tag">${i.premio_tipo || 'Extração'}</span></td>
-                    <td style="color: var(--dim)">${i.ganhador.substring(0,10)}***</td>
+                    <td style="color:var(--dim)">${i.ganhador.substring(0,12)}...</td>
                     <td class="price-up mono">${i.valor}</td>
-                    <td>${i.suspeito ? '<span class="warn-badge">ALERTA</span>' : '✅ CONFERIDO'}</td>
+                    <td>${i.suspeito ? '<span class="warn-badge">ALERTA</span>' : '✅ OK'}</td>
                 </tr>
             `;
-        }).join('') || '<tr><td colspan="6" style="text-align:center; padding:50px; color:var(--dim);">SEM REGISTROS ENCONTRADOS</td></tr>';
+        }).join('') || '<tr><td colspan="6" style="text-align:center; padding:50px; color:var(--dim);">AGUARDANDO SORTEIOS...</td></tr>';
 
-        // Atualiza Cards
         document.getElementById('vTotal').innerText = somaValores.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
         document.getElementById('vAlertas').innerText = countSuspeitos;
         document.getElementById('vMedia').innerText = dados.length ? (somaValores/dados.length).toLocaleString('pt-BR', {style:'currency', currency:'BRL'}) : 'R$ 0,00';
         
-        gerarGraficoIntensidade(intensidadeHoras);
+        gerarGrafico(intensidadeHoras);
     }
 
-    function gerarGraficoIntensidade(dadosH) {
+    function gerarGrafico(dadosH) {
         const ctx = document.getElementById('heatmapChart').getContext('2d');
-        
         if(chartInstancia) chartInstancia.destroy();
-
         chartInstancia = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: Array.from({length: 24}, (_, i) => i + 'h'),
                 datasets: [{
-                    label: 'Volume por Hora (R$)',
                     data: dadosH,
-                    backgroundColor: dadosH.map(v => v > 0 ? 'rgba(76, 175, 80, 0.4)' : 'rgba(45, 45, 45, 0.2)'),
+                    backgroundColor: 'rgba(76, 175, 80, 0.4)',
                     borderColor: '#4caf50',
                     borderWidth: 1,
                     borderRadius: 3
@@ -411,7 +354,6 @@
         });
     }
 
-    // Start
     iniciar();
 </script>
 
