@@ -1,1 +1,12 @@
-[]
+[
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "12:03",
+        "loteria": "LT NACIONAL 12HS",
+        "premio_tipo": "CENTENA",
+        "ganhador": "Unidade: 994487",
+        "valor": "R$ 2.000,00",
+        "timestamp_local": "2026-02-18T12:28:55.342536",
+        "suspeito": false
+    }
+]
