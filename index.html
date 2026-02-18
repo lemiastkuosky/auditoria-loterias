@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auditoria Master v8.1 | Lets 3D</title>
+    <title>Auditoria Master v8.3 | Lets 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -16,79 +16,75 @@
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
         
-        .container { max-width: 1600px; margin: 0 auto; padding: 20px; width: 100%; padding-bottom: 100px; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; width: 100%; padding-bottom: 110px; }
         
-        /* CABEÇALHO RESTAURADO */
+        /* CABEÇALHO */
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 25px; }
         .header h1 { font-size: 16px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 0; }
         #clock { font-family: 'JetBrains Mono'; color: var(--dim); font-size: 12px; font-weight: 700; }
 
-        /* CARDS GLOBAIS (AJUSTADOS) */
+        /* CARDS GLOBAIS (CLICÁVEIS) */
         .global-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-        .g-card { background: var(--surface); border: 1px solid var(--border); padding: 15px; border-radius: 6px; border-left: 4px solid var(--border); }
+        .g-card { 
+            background: var(--surface); border: 1px solid var(--border); padding: 15px; border-radius: 6px; 
+            border-left: 4px solid var(--border); cursor: pointer; transition: all 0.2s ease;
+        }
+        .g-card:hover { background: var(--surface-2); transform: translateY(-2px); }
+        .g-card.active { border-left-width: 8px; background: #1a1a1a; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-color: var(--accent) !important; }
         .g-card.c-hoje { border-left-color: var(--accent); }
         .g-card.c-sem { border-left-color: var(--money); }
         .g-card.c-mes { border-left-color: var(--warn); }
+        .g-label { font-size: 9px; text-transform: uppercase; color: var(--dim); font-weight: 700; display: block; margin-bottom: 5px; pointer-events: none; }
+        .g-value { font-family: 'JetBrains Mono'; font-size: 18px; font-weight: 700; color: #fff; pointer-events: none; }
         
-        .g-label { font-size: 9px; text-transform: uppercase; color: var(--dim); font-weight: 700; display: block; margin-bottom: 5px; }
-        .g-value { font-family: 'JetBrains Mono'; font-size: 18px; font-weight: 700; color: #fff; }
-        
-        /* LAYOUT DIVIDIDO */
+        /* LAYOUT */
         .dashboard-split { display: grid; grid-template-columns: 350px 1fr; gap: 20px; align-items: start; }
-        
         .sidebar { display: flex; flex-direction: column; gap: 20px; }
         .filter-box { background: var(--surface); border: 1px solid var(--border); padding: 15px; border-radius: 6px; }
         .f-group { margin-bottom: 12px; }
         .f-label { font-size: 10px; font-weight: 700; color: var(--dim); margin-bottom: 5px; display: block; }
-        
         select, input, button { background: #000; border: 1px solid var(--border); color: #fff; padding: 10px; font-size: 12px; border-radius: 4px; width: 100%; outline: none; }
         button { background: var(--surface-2); cursor: pointer; font-weight: 700; text-transform: uppercase; font-size: 10px; }
         button:hover { background: var(--accent); color: #000; }
 
-        /* MATRIZ AGRUPADA */
+        /* MATRIZ */
         .matrix-box { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
-        .matrix-header { background: var(--surface-2); padding: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        .matrix-header { background: var(--surface-2); padding: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
         .matrix-table { width: 100%; border-collapse: collapse; }
-        .matrix-table th { text-align: left; padding: 10px; font-size: 9px; color: var(--dim); border-bottom: 1px solid var(--border); }
         .matrix-table td { padding: 10px; font-size: 11px; border-bottom: 1px solid var(--border); font-family: 'JetBrains Mono'; }
         .mt-name { font-family: 'Inter'; font-weight: 700; color: #fff; }
 
-        /* CONTEÚDO PRINCIPAL */
+        /* TABELA */
         .main-content { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
         .content-header { padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .content-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--dim); }
-
-        .big-table-wrap { overflow-x: auto; }
+        .content-title { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--accent); }
+        .big-table-wrap { overflow-x: auto; max-height: 550px; overflow-y: auto; }
         .big-table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
-        .big-table th { background: var(--surface-2); padding: 12px; font-size: 9px; color: var(--dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        .big-table th { background: var(--surface-2); padding: 12px; font-size: 9px; color: var(--dim); text-transform: uppercase; border-bottom: 1px solid var(--border); position: sticky; top: 0; }
         .big-table td { padding: 12px; border-bottom: 1px solid #222; font-size: 12px; }
-        
         .cell-num { font-family: 'JetBrains Mono'; font-weight: 700; background: #000; padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border); }
         .cell-val { font-family: 'JetBrains Mono'; font-weight: 700; color: var(--money); }
         .badge { padding: 3px 7px; border-radius: 4px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
         .b-milhar { background: rgba(41, 121, 255, 0.1); color: var(--milhar); }
         .b-centena { background: rgba(171, 71, 188, 0.1); color: var(--centena); }
 
-        /* RODAPÉ ESTILO CLÁSSICO */
+        /* RODAPÉ COM LEDS DINÂMICOS */
         footer { 
-            background: #050505; padding: 12px 20px; border-top: 1px solid var(--border); 
+            background: #050505; padding: 15px 20px; border-top: 1px solid var(--border); 
             display: flex; justify-content: space-between; align-items: center; 
             position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100;
         }
-        .status-group { display: flex; gap: 20px; }
-        .status-item { display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 700; color: var(--dim); }
-        .led { width: 7px; height: 7px; border-radius: 50%; background: #333; }
-        .led.active { background: var(--success); box-shadow: 0 0 8px var(--success); }
+        .status-group { display: flex; gap: 25px; }
+        .status-item { display: flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 800; color: var(--dim); }
+        .led { width: 8px; height: 8px; border-radius: 50%; background: #333; transition: 0.3s; }
+        .led.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .led.error { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
         .status-label { color: var(--accent); }
 
-        /* RESPONSIVIDADE CELULAR */
         @media (max-width: 900px) {
-            .container { padding: 10px; }
-            .header { flex-direction: column; gap: 10px; text-align: center; }
             .global-stats { grid-template-columns: 1fr 1fr; gap: 10px; }
             .dashboard-split { grid-template-columns: 1fr; }
-            .sidebar { order: -1; } /* Filtros primeiro no celular */
-            footer { flex-direction: column; gap: 10px; padding: 15px; }
+            footer { flex-direction: column; gap: 12px; }
             .status-group { width: 100%; justify-content: center; }
         }
     </style>
@@ -97,24 +93,24 @@
 
 <div class="container">
     <div class="header">
-        <h1>Dashboard Auditoria v8.1 | Lets 3D</h1>
+        <h1>Dashboard Auditoria v8.3 | Lets 3D</h1>
         <div id="clock">--:--:--</div>
     </div>
 
     <div class="global-stats">
-        <div class="g-card c-hoje">
+        <div class="g-card c-hoje active" id="card-hoje" onclick="setPeriodo('hoje')">
             <span class="g-label">Hoje</span>
             <div class="g-value" id="totHoje">R$ 0,00</div>
         </div>
-        <div class="g-card c-sem">
+        <div class="g-card c-sem" id="card-semana" onclick="setPeriodo('semana')">
             <span class="g-label">7 Dias</span>
             <div class="g-value" id="totSemana">R$ 0,00</div>
         </div>
-        <div class="g-card c-mes">
+        <div class="g-card c-mes" id="card-mes" onclick="setPeriodo('mes')">
             <span class="g-label">Mês Atual</span>
             <div class="g-value" id="totMes">R$ 0,00</div>
         </div>
-        <div class="g-card">
+        <div class="g-card" id="card-ticket">
             <span class="g-label">Ticket Médio</span>
             <div class="g-value" id="totTicket">R$ 0,00</div>
         </div>
@@ -124,27 +120,30 @@
         <div class="sidebar">
             <div class="filter-box">
                 <div class="f-group">
-                    <span class="f-label">DATA BASE</span>
-                    <input type="date" id="fData" onchange="renderizarTudo()">
-                </div>
-                <div class="f-group">
                     <span class="f-label">MODO DE VISÃO</span>
                     <select id="fAgrupar" onchange="renderizarTudo()">
                         <option value="sim">Agrupar por Banca (Ex: Nacional)</option>
                         <option value="nao">Mostrar Extrações Detalhadas</option>
                     </select>
                 </div>
-                <button onclick="carregarBanco()">Atualizar Banco</button>
+                <div class="f-group">
+                    <span class="f-label">BUSCA POR DATA</span>
+                    <input type="date" id="fData" onchange="setPeriodo('custom')">
+                </div>
+                <button onclick="carregarBanco()">Forçar Sincronismo</button>
             </div>
 
             <div class="matrix-box">
-                <div class="matrix-header">Performance por Banca</div>
+                <div class="matrix-header">
+                    <span>Performance Banca</span>
+                    <span id="labelPeriodo" style="color:var(--accent)">HOJE</span>
+                </div>
                 <table class="matrix-table">
                     <thead>
                         <tr>
-                            <th>BANCA</th>
-                            <th style="text-align:right">PREMIOS</th>
-                            <th style="text-align:right">TOTAL</th>
+                            <th style="padding:10px; font-size:9px; text-align:left; color:var(--dim)">NOME</th>
+                            <th style="padding:10px; font-size:9px; text-align:right; color:var(--dim)">QTD</th>
+                            <th style="padding:10px; font-size:9px; text-align:right; color:var(--dim)">TOTAL</th>
                         </tr>
                     </thead>
                     <tbody id="corpoMatriz"></tbody>
@@ -154,13 +153,14 @@
 
         <div class="main-content">
             <div class="content-header">
-                <span class="content-title">Registros do Período</span>
-                <span style="font-size:10px; color:var(--accent)" id="contador">0 registros</span>
+                <span class="content-title" id="tituloTabela">Extrações: Hoje</span>
+                <span style="font-size:10px; color:var(--dim)" id="contador">0 registros</span>
             </div>
             <div class="big-table-wrap">
                 <table class="big-table">
                     <thead>
                         <tr>
+                            <th>Dia</th>
                             <th>Hora</th>
                             <th>Loteria</th>
                             <th>Mod</th>
@@ -178,111 +178,152 @@
 <footer>
     <div class="status-group">
         <div class="status-item">
-            <div id="lGit" class="led active"></div> GITHUB: <span class="status-label">ONLINE</span>
+            <div id="lGit" class="led"></div> GITHUB: <span id="tGit" class="status-label">OFFLINE</span>
         </div>
         <div class="status-item">
-            <div id="lSvr" class="led active"></div> API SERVIDOR: <span id="statusSvr" class="status-label">SINCRONIZADO</span>
+            <div id="lSvr" class="led"></div> SERVIDOR: <span id="tSvr" class="status-label">DESCONECTADO</span>
         </div>
     </div>
-    <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--dim)">CRIADO POR LE | v8.1</div>
+    <div style="font-size: 10px; font-weight: 800; letter-spacing: 1px; color: var(--dim)">CRIADO POR LE | v8.3</div>
 </footer>
 
 <script>
     let bancoTotal = [];
+    let filtroPeriodo = 'hoje';
 
     async function iniciar() {
         document.getElementById('fData').value = new Date().toISOString().split('T')[0];
-        setInterval(() => { 
-            document.getElementById('clock').innerText = new Date().toLocaleString('pt-BR'); 
-        }, 1000);
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString('pt-BR'); }, 1000);
         await carregarBanco();
         setInterval(carregarBanco, 300000); 
     }
 
     async function carregarBanco() {
+        const lGit = document.getElementById('lGit');
+        const tGit = document.getElementById('tGit');
+        
         try {
             const r = await fetch('dados_loterias.json?v=' + Date.now());
             if(r.ok) {
                 const t = await r.text();
                 bancoTotal = t ? JSON.parse(t) : [];
+                
+                // LED GITHUB OK
+                lGit.className = 'led active';
+                tGit.innerText = 'ONLINE';
+                
+                validarSincronismoServidor();
                 renderizarTudo();
-            }
-        } catch (e) { console.log(e); }
+            } else { throw new Error(); }
+        } catch (e) {
+            // LED GITHUB ERRO
+            lGit.className = 'led error';
+            tGit.innerText = 'ERRO DE ARQUIVO';
+        }
+    }
+
+    function validarSincronismoServidor() {
+        const lSvr = document.getElementById('lSvr');
+        const tSvr = document.getElementById('tSvr');
+        
+        if(!bancoTotal.length) {
+            lSvr.className = 'led';
+            tSvr.innerText = 'SEM DADOS';
+            return;
+        }
+
+        const ultimo = bancoTotal[bancoTotal.length - 1];
+        const dataUltimo = new Date(ultimo.timestamp_local);
+        const agora = new Date();
+        const diffMinutos = (agora - dataUltimo) / (1000 * 60);
+
+        // Se o último dado foi há menos de 60 minutos = VERDE
+        if(diffMinutos < 60) {
+            lSvr.className = 'led active';
+            tSvr.innerText = 'SINCRONIZADO';
+        } else {
+            // Se demorar mais de 1 hora = VERMELHO
+            lSvr.className = 'led error';
+            tSvr.innerText = 'ATRASADO (' + Math.floor(diffMinutos/60) + 'h)';
+        }
+    }
+
+    function setPeriodo(p) {
+        filtroPeriodo = p;
+        document.querySelectorAll('.g-card').forEach(c => c.classList.remove('active'));
+        if(p !== 'custom') document.getElementById('card-' + p).classList.add('active');
+        renderizarTudo();
     }
 
     function renderizarTudo() {
-        const dataF = document.getElementById('fData').value.split('-').reverse().join('/');
         const agrupar = document.getElementById('fAgrupar').value;
+        const hoje = new Date();
+        const strHoje = hoje.toLocaleDateString('pt-BR');
+        let filtrados = [], label = "Hoje";
 
-        // Filtro por data
-        const filtrados = bancoTotal.filter(item => !document.getElementById('fData').value || item.dia === dataF);
+        if(filtroPeriodo === 'hoje') {
+            filtrados = bancoTotal.filter(i => i.dia === strHoje);
+            label = "Hoje";
+        } else if (filtroPeriodo === 'semana') {
+            filtrados = bancoTotal.filter(i => {
+                const p = i.dia.split('/');
+                return (hoje - new Date(p[2], p[1]-1, p[0]))/(864e5) <= 7;
+            });
+            label = "7 Dias";
+        } else if (filtroPeriodo === 'mes') {
+            filtrados = bancoTotal.filter(i => i.dia.split('/')[1] == (hoje.getMonth()+1));
+            label = "Mês Atual";
+        } else {
+            const d = document.getElementById('fData').value.split('-').reverse().join('/');
+            filtrados = bancoTotal.filter(i => i.dia === d);
+            label = d;
+        }
 
-        // Renderiza Tabela Principal
-        const corpo = document.getElementById('corpoTabela');
+        document.getElementById('labelPeriodo').innerText = label.toUpperCase();
+        document.getElementById('tituloTabela').innerText = "Extrações: " + label;
         document.getElementById('contador').innerText = `${filtrados.length} registros`;
-        
+
+        const corpo = document.getElementById('corpoTabela');
         corpo.innerHTML = filtrados.slice().reverse().map(i => {
             const mod = (i.modalidade || 'Geral').toUpperCase();
             const badge = mod.includes('MILHAR') ? 'b-milhar' : (mod.includes('CENTENA') ? 'b-centena' : '');
-            return `
-            <tr>
-                <td style="color:var(--dim); font-family: 'JetBrains Mono'">${i.horario_extracao}</td>
-                <td style="font-weight:700">${i.loteria}</td>
-                <td><span class="badge ${badge}">${mod}</span></td>
-                <td><span class="cell-num">${i.numero_sorteado || '---'}</span></td>
-                <td class="cell-val">${i.valor}</td>
-            </tr>`;
-        }).join('') || '<tr><td colspan="5" style="text-align:center; padding:30px; color:#555">Nenhum dado para este dia</td></tr>';
+            return `<tr><td style="font-size:10px; color:#888">${i.dia}</td><td style="font-family:JetBrains Mono">${i.horario_extracao}</td><td style="font-weight:700">${i.loteria}</td><td><span class="badge ${badge}">${mod}</span></td><td><span class="cell-num">${i.numero_sorteado || '---'}</span></td><td class="cell-val">${i.valor}</td></tr>`;
+        }).join('') || '<tr><td colspan="6" style="text-align:center; padding:30px; color:#555">Nenhum dado</td></tr>';
 
-        // Renderiza Matriz Agrupada
         renderizarMatriz(filtrados, agrupar);
         calcularGlobais();
     }
 
     function renderizarMatriz(dados, agrupar) {
         const resumo = {};
-        
         dados.forEach(i => {
-            let nome = i.loteria;
-            if(agrupar === 'sim') {
-                // Remove horários como "12HS", "15HS", etc para agrupar
-                nome = nome.replace(/\s\d+HS/gi, '').trim();
-            }
+            let n = i.loteria;
+            if(agrupar === 'sim') n = n.replace(/\s\d+HS/gi, '').trim();
             const v = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
-            if(!resumo[nome]) resumo[nome] = { qtd: 0, total: 0 };
-            resumo[nome].qtd++;
-            resumo[nome].total += v;
+            if(!resumo[n]) resumo[n] = { q: 0, t: 0 };
+            resumo[n].q++; resumo[n].t += v;
         });
 
-        document.getElementById('corpoMatriz').innerHTML = Object.keys(resumo).map(nome => `
-            <tr>
-                <td class="mt-name">${nome}</td>
-                <td style="text-align:right">${resumo[nome].qtd}</td>
-                <td style="text-align:right; color:var(--money)">${resumo[nome].total.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</td>
-            </tr>
-        `).join('');
+        document.getElementById('corpoMatriz').innerHTML = Object.keys(resumo).sort((a,b) => resumo[b].t - resumo[a].t).map(n => `<tr><td class="mt-name">${n}</td><td style="text-align:right">${resumo[n].q}</td><td style="text-align:right; color:var(--money)">${resumo[n].t.toLocaleString('pt-BR', {style:'currency', currency:'BRL'})}</td></tr>`).join('');
     }
 
     function calcularGlobais() {
-        const hoje = new Date().toLocaleDateString('pt-BR');
-        let sHoje=0, sSem=0, sMes=0, qtd=0;
-
+        const hoje = new Date(), strHoje = hoje.toLocaleDateString('pt-BR');
+        let sH=0, sS=0, sM=0, qT=0, vT=0;
         bancoTotal.forEach(i => {
             const v = parseFloat(i.valor.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
-            const partes = i.dia.split('/');
-            const dItem = new Date(partes[2], partes[1]-1, partes[0]);
-            
-            if(i.dia === hoje) sHoje += v;
-            if(dItem.getMonth() === new Date().getMonth()) sMes += v;
-            if((new Date() - dItem)/(1000*60*60*24) <= 7) sSem += v;
-            qtd++;
+            const p = i.dia.split('/');
+            const dI = new Date(p[2], p[1]-1, p[0]);
+            if(i.dia === strHoje) sH += v;
+            if(dI.getMonth() === hoje.getMonth()) sM += v;
+            if((hoje - dI)/864e5 <= 7) sS += v;
+            vT += v; qT++;
         });
-
         const fmt = {style:'currency', currency:'BRL'};
-        document.getElementById('totHoje').innerText = sHoje.toLocaleString('pt-BR', fmt);
-        document.getElementById('totSemana').innerText = sSem.toLocaleString('pt-BR', fmt);
-        document.getElementById('totMes').innerText = sMes.toLocaleString('pt-BR', fmt);
-        document.getElementById('totTicket').innerText = qtd ? (sMes/qtd).toLocaleString('pt-BR', fmt) : 'R$ 0,00';
+        document.getElementById('totHoje').innerText = sH.toLocaleString('pt-BR', fmt);
+        document.getElementById('totSemana').innerText = sS.toLocaleString('pt-BR', fmt);
+        document.getElementById('totMes').innerText = sM.toLocaleString('pt-BR', fmt);
+        document.getElementById('totTicket').innerText = qT ? (vT/qT).toLocaleString('pt-BR', fmt) : 'R$ 0,00';
     }
 
     iniciar();
