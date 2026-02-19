@@ -97,5 +97,16 @@
         "valor": "R$ 1.568,00",
         "timestamp_local": "2026-02-18T20:47:23.834295",
         "suspeito": false
+    },
+    {
+        "dia": "18/02/2026",
+        "horario_extracao": "21:39",
+        "loteria": "LT PT RIO 21HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "8555",
+        "ganhador": "Unidade: 708096",
+        "valor": "R$ 20.000,00",
+        "timestamp_local": "2026-02-18T22:21:02.654190",
+        "suspeito": false
     }
 ]
