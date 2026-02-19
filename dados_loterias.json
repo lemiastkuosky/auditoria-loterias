@@ -108,5 +108,16 @@
         "valor": "R$ 20.000,00",
         "timestamp_local": "2026-02-18T22:21:02.654190",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "02:04",
+        "loteria": "LT NACIONAL 02HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "3150",
+        "ganhador": "Unidade: 148111",
+        "valor": "R$ 31.440,00",
+        "timestamp_local": "2026-02-19T02:20:47.606187",
+        "suspeito": false
     }
 ]
