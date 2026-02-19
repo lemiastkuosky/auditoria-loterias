@@ -218,5 +218,16 @@
         "valor": "R$ 2.800,00",
         "timestamp_local": "2026-02-19T15:32:39.463381",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "15:53",
+        "loteria": "LT LOTECE 15H45",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "2400",
+        "ganhador": "Unidade: 96907",
+        "valor": "R$ 1.142,86",
+        "timestamp_local": "2026-02-19T16:28:28.390934",
+        "suspeito": false
     }
 ]
