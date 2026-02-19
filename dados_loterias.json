@@ -229,5 +229,16 @@
         "valor": "R$ 1.142,86",
         "timestamp_local": "2026-02-19T16:28:28.390934",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "16:28",
+        "loteria": "LT PT RIO 16HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "736",
+        "ganhador": "Unidade: 139721",
+        "valor": "R$ 8.000,00",
+        "timestamp_local": "2026-02-19T16:57:55.124542",
+        "suspeito": false
     }
 ]
