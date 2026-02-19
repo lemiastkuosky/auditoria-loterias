@@ -130,5 +130,16 @@
         "valor": "R$ 5.000,00",
         "timestamp_local": "2026-02-19T08:05:15.244534",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "08:05",
+        "loteria": "LT NACIONAL 08HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "1804",
+        "ganhador": "Unidade: 898591",
+        "valor": "R$ 5.000,00",
+        "timestamp_local": "2026-02-19T08:52:55.672514",
+        "suspeito": false
     }
 ]
