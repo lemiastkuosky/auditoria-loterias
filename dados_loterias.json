@@ -240,5 +240,16 @@
         "valor": "R$ 8.000,00",
         "timestamp_local": "2026-02-19T16:57:55.124542",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "17:03",
+        "loteria": "LT NACIONAL 17HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "8228",
+        "ganhador": "Unidade: 841126",
+        "valor": "R$ 3.200,00",
+        "timestamp_local": "2026-02-19T17:31:29.018403",
+        "suspeito": false
     }
 ]
