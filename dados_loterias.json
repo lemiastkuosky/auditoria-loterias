@@ -174,5 +174,16 @@
         "valor": "R$ 10.000,00",
         "timestamp_local": "2026-02-19T11:43:16.070572",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "12:04",
+        "loteria": "LT NACIONAL 12HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "1853",
+        "ganhador": "Unidade: 35810",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-19T12:31:28.310737",
+        "suspeito": false
     }
 ]
