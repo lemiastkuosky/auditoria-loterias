@@ -196,5 +196,16 @@
         "valor": "R$ 8.000,00",
         "timestamp_local": "2026-02-19T13:32:37.924807",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "14:32",
+        "loteria": "LT PT RIO 14HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "1295",
+        "ganhador": "Unidade: 817069",
+        "valor": "R$ 9.999,99",
+        "timestamp_local": "2026-02-19T14:35:28.232611",
+        "suspeito": false
     }
 ]
