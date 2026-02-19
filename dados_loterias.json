@@ -262,5 +262,16 @@
         "valor": "R$ 2.000,00",
         "timestamp_local": "2026-02-19T18:03:28.007330",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "18:30",
+        "loteria": "LT PT RIO 18HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "1353",
+        "ganhador": "Unidade: 641971",
+        "valor": "R$ 8.888,89",
+        "timestamp_local": "2026-02-19T18:48:48.411716",
+        "suspeito": false
     }
 ]
