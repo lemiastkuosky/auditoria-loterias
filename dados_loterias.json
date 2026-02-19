@@ -295,5 +295,16 @@
         "valor": "R$ 4.000,00",
         "timestamp_local": "2026-02-19T20:28:32.404381",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "20:30",
+        "loteria": "PT SP 20HS",
+        "modalidade": "DEZENA",
+        "numero_sorteado": "78",
+        "ganhador": "Unidade: 16506",
+        "valor": "R$ 800,00",
+        "timestamp_local": "2026-02-19T20:53:55.500379",
+        "suspeito": false
     }
 ]
