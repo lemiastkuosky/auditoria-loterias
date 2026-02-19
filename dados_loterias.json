@@ -284,5 +284,16 @@
         "valor": "R$ 8.000,00",
         "timestamp_local": "2026-02-19T19:57:38.315633",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "19:41",
+        "loteria": "LT MALUCA/BA 19HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "2763",
+        "ganhador": "Unidade: 145341",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-19T20:28:32.404381",
+        "suspeito": false
     }
 ]
