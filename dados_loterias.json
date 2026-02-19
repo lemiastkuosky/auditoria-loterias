@@ -119,5 +119,16 @@
         "valor": "R$ 31.440,00",
         "timestamp_local": "2026-02-19T02:20:47.606187",
         "suspeito": false
+    },
+    {
+        "dia": "19/02/2026",
+        "horario_extracao": "07:27",
+        "loteria": "LT LOOK 07HS",
+        "modalidade": "GRUPO",
+        "numero_sorteado": "09",
+        "ganhador": "Unidade: 77167",
+        "valor": "R$ 5.000,00",
+        "timestamp_local": "2026-02-19T08:05:15.244534",
+        "suspeito": false
     }
 ]
