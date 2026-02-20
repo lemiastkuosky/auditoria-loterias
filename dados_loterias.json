@@ -427,5 +427,16 @@
         "valor": "R$ 216.000,00",
         "timestamp_local": "2026-02-20T15:00:03.559272",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "15:32",
+        "loteria": "LT BAHIA 15HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "1007",
+        "ganhador": "Unidade: 900401",
+        "valor": "R$ 10.000,00",
+        "timestamp_local": "2026-02-20T15:55:58.374158",
+        "suspeito": false
     }
 ]
