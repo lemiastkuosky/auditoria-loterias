@@ -493,5 +493,16 @@
         "valor": "R$ 8.000,00",
         "timestamp_local": "2026-02-20T19:51:58.546710",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "19:50",
+        "loteria": "LT MALUCA/LOTECE 19HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "654",
+        "ganhador": "Unidade: 474940",
+        "valor": "R$ 2.400,00",
+        "timestamp_local": "2026-02-20T20:21:13.845042",
+        "suspeito": false
     }
 ]
