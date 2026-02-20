@@ -438,5 +438,16 @@
         "valor": "R$ 10.000,00",
         "timestamp_local": "2026-02-20T15:55:58.374158",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "16:26",
+        "loteria": "LT LOOK 16HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "340",
+        "ganhador": "Unidade: 225762",
+        "valor": "R$ 12.000,00",
+        "timestamp_local": "2026-02-20T16:33:08.454194",
+        "suspeito": false
     }
 ]
