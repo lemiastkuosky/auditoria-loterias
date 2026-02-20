@@ -504,5 +504,16 @@
         "valor": "R$ 2.400,00",
         "timestamp_local": "2026-02-20T20:21:13.845042",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "20:28",
+        "loteria": "PT SP 20HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "2626",
+        "ganhador": "Unidade: 883619",
+        "valor": "R$ 5.000,00",
+        "timestamp_local": "2026-02-20T20:49:12.640812",
+        "suspeito": false
     }
 ]
