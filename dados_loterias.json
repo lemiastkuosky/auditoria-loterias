@@ -361,5 +361,16 @@
         "valor": "R$ 16.000,00",
         "timestamp_local": "2026-02-20T10:45:53.018248",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "11:10",
+        "loteria": "LT LOTECE 10HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "711",
+        "ganhador": "Unidade: 109123",
+        "valor": "R$ 1.600,00",
+        "timestamp_local": "2026-02-20T11:35:17.058471",
+        "suspeito": false
     }
 ]
