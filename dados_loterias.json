@@ -394,5 +394,16 @@
         "valor": "R$ 12.000,00",
         "timestamp_local": "2026-02-20T12:57:49.951015",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "13:27",
+        "loteria": "PT SP 13HS",
+        "modalidade": "DEZENA",
+        "numero_sorteado": "92",
+        "ganhador": "Unidade: 386862",
+        "valor": "R$ 2.000,00",
+        "timestamp_local": "2026-02-20T13:37:47.370128",
+        "suspeito": false
     }
 ]
