@@ -372,5 +372,16 @@
         "valor": "R$ 1.600,00",
         "timestamp_local": "2026-02-20T11:35:17.058471",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "11:32",
+        "loteria": "LT PT RIO 11HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "9878",
+        "ganhador": "Unidade: 750907",
+        "valor": "R$ 10.000,00",
+        "timestamp_local": "2026-02-20T12:23:41.015403",
+        "suspeito": false
     }
 ]
