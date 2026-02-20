@@ -449,5 +449,16 @@
         "valor": "R$ 12.000,00",
         "timestamp_local": "2026-02-20T16:33:08.454194",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "17:05",
+        "loteria": "LT NACIONAL 17HS",
+        "modalidade": "DEZENA",
+        "numero_sorteado": "88",
+        "ganhador": "Unidade: 588352",
+        "valor": "R$ 4.960,00",
+        "timestamp_local": "2026-02-20T17:30:32.803691",
+        "suspeito": false
     }
 ]
