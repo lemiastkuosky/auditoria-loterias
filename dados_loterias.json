@@ -460,5 +460,16 @@
         "valor": "R$ 4.960,00",
         "timestamp_local": "2026-02-20T17:30:32.803691",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "18:16",
+        "loteria": "LT LOTEP 18HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "1988",
+        "ganhador": "Unidade: 361438",
+        "valor": "R$ 2.000,00",
+        "timestamp_local": "2026-02-20T18:27:43.484175",
+        "suspeito": false
     }
 ]
