@@ -526,5 +526,16 @@
         "valor": "R$ 15.000,00",
         "timestamp_local": "2026-02-20T22:14:44.686859",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "02:04",
+        "loteria": "LT NACIONAL 02HS",
+        "modalidade": "DEZENA",
+        "numero_sorteado": "36",
+        "ganhador": "Unidade: 818654",
+        "valor": "R$ 4.600,00",
+        "timestamp_local": "2026-02-21T02:36:39.110167",
+        "suspeito": false
     }
 ]
