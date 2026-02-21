@@ -702,5 +702,16 @@
         "valor": "R$ 4.000,00",
         "timestamp_local": "2026-02-21T16:24:51.063224",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "16:30",
+        "loteria": "LT PT RIO 16HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "468",
+        "ganhador": "Unidade: 166105",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-21T16:55:04.597660",
+        "suspeito": false
     }
 ]
