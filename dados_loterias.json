@@ -636,5 +636,16 @@
         "valor": "R$ 5.600,00",
         "timestamp_local": "2026-02-21T13:18:41.079463",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "13:29",
+        "loteria": "PT SP 13HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "9191",
+        "ganhador": "Unidade: 9984",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-21T13:53:03.155019",
+        "suspeito": false
     }
 ]
