@@ -735,5 +735,16 @@
         "valor": "R$ 3.372,72",
         "timestamp_local": "2026-02-21T18:15:23.288200",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "18:27",
+        "loteria": "LT LOOK 18HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "7920",
+        "ganhador": "Unidade: 912363",
+        "valor": "R$ 2.375,00",
+        "timestamp_local": "2026-02-21T18:43:38.915510",
+        "suspeito": false
     }
 ]
