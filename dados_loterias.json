@@ -691,5 +691,16 @@
         "valor": "R$ 8.000,00",
         "timestamp_local": "2026-02-21T15:58:36.061176",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "15:57",
+        "loteria": "LT LOTEP 15HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "791",
+        "ganhador": "Unidade: 15225",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-21T16:24:51.063224",
+        "suspeito": false
     }
 ]
