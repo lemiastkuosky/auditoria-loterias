@@ -548,5 +548,16 @@
         "valor": "R$ 8.000,00",
         "timestamp_local": "2026-02-21T07:50:31.762726",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "08:05",
+        "loteria": "LT NACIONAL 08HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "1919",
+        "ganhador": "Unidade: 9984",
+        "valor": "R$ 3.328,00",
+        "timestamp_local": "2026-02-21T08:42:49.707643",
+        "suspeito": false
     }
 ]
