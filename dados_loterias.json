@@ -559,5 +559,16 @@
         "valor": "R$ 3.328,00",
         "timestamp_local": "2026-02-21T08:42:49.707643",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "08:32",
+        "loteria": "PT SP 08HS",
+        "modalidade": "GRUPO",
+        "numero_sorteado": "09",
+        "ganhador": "Unidade: 211164",
+        "valor": "R$ 1.800,00",
+        "timestamp_local": "2026-02-21T09:29:04.269394",
+        "suspeito": false
     }
 ]
