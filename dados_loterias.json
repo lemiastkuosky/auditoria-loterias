@@ -537,5 +537,16 @@
         "valor": "R$ 4.600,00",
         "timestamp_local": "2026-02-21T02:36:39.110167",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "07:27",
+        "loteria": "LT LOOK 07HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "703",
+        "ganhador": "Unidade: 985454",
+        "valor": "R$ 8.000,00",
+        "timestamp_local": "2026-02-21T07:50:31.762726",
+        "suspeito": false
     }
 ]
