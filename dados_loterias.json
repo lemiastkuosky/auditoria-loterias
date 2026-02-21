@@ -757,5 +757,16 @@
         "valor": "R$ 1.600,00",
         "timestamp_local": "2026-02-21T19:47:58.145942",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "20:12",
+        "loteria": "LT FEDERAL",
+        "modalidade": "DEZENA",
+        "numero_sorteado": "22",
+        "ganhador": "Unidade: 169581",
+        "valor": "R$ 96.000,00",
+        "timestamp_local": "2026-02-21T20:43:57.551997",
+        "suspeito": false
     }
 ]
