@@ -680,5 +680,16 @@
         "valor": "R$ 4.000,00",
         "timestamp_local": "2026-02-21T15:22:30.846299",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "15:29",
+        "loteria": "LT BAHIA 15HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "5935",
+        "ganhador": "Unidade: 169431",
+        "valor": "R$ 8.000,00",
+        "timestamp_local": "2026-02-21T15:58:36.061176",
+        "suspeito": false
     }
 ]
