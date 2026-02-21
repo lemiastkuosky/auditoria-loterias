@@ -614,5 +614,16 @@
         "valor": "R$ 11.250,00",
         "timestamp_local": "2026-02-21T11:50:11.220552",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "12:07",
+        "loteria": "LT MALUCA/NACIONAL 12HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "8019",
+        "ganhador": "Unidade: 269556",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-21T12:46:06.986910",
+        "suspeito": false
     }
 ]
