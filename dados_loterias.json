@@ -713,5 +713,16 @@
         "valor": "R$ 4.000,00",
         "timestamp_local": "2026-02-21T16:55:04.597660",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "16:54",
+        "loteria": "LT BOASORTE 16HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "7447",
+        "ganhador": "Unidade: 365722",
+        "valor": "R$ 10.000,00",
+        "timestamp_local": "2026-02-21T17:15:59.439825",
+        "suspeito": false
     }
 ]
