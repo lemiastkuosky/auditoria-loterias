@@ -570,5 +570,16 @@
         "valor": "R$ 1.800,00",
         "timestamp_local": "2026-02-21T09:29:04.269394",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "10:06",
+        "loteria": "LT NACIONAL 10HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "7563",
+        "ganhador": "Unidade: 18332",
+        "valor": "R$ 1.760,00",
+        "timestamp_local": "2026-02-21T10:24:47.274722",
+        "suspeito": false
     }
 ]
