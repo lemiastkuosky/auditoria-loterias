@@ -581,5 +581,16 @@
         "valor": "R$ 1.760,00",
         "timestamp_local": "2026-02-21T10:24:47.274722",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "10:31",
+        "loteria": "PT SP 10HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "441",
+        "ganhador": "Unidade: 211164",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-21T10:56:45.671667",
+        "suspeito": false
     }
 ]
