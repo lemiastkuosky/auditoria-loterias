@@ -746,5 +746,16 @@
         "valor": "R$ 2.375,00",
         "timestamp_local": "2026-02-21T18:43:38.915510",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "19:32",
+        "loteria": "PT SP 19HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "547",
+        "ganhador": "Unidade: 998145",
+        "valor": "R$ 1.600,00",
+        "timestamp_local": "2026-02-21T19:47:58.145942",
+        "suspeito": false
     }
 ]
