@@ -515,5 +515,16 @@
         "valor": "R$ 5.000,00",
         "timestamp_local": "2026-02-20T20:49:12.640812",
         "suspeito": false
+    },
+    {
+        "dia": "20/02/2026",
+        "horario_extracao": "21:39",
+        "loteria": "LT PT RIO 21HS",
+        "modalidade": "DUQUE DEZ MEIO",
+        "numero_sorteado": "16-12",
+        "ganhador": "Unidade: 45129",
+        "valor": "R$ 15.000,00",
+        "timestamp_local": "2026-02-20T22:14:44.686859",
+        "suspeito": false
     }
 ]
