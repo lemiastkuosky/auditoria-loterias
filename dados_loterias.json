@@ -592,5 +592,16 @@
         "valor": "R$ 4.000,00",
         "timestamp_local": "2026-02-21T10:56:45.671667",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "10:37",
+        "loteria": "LT BAHIA 10HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "966",
+        "ganhador": "Unidade: 396055",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-21T11:22:46.990607",
+        "suspeito": false
     }
 ]
