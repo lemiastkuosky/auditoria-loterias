@@ -669,5 +669,16 @@
         "valor": "R$ 30.000,00",
         "timestamp_local": "2026-02-21T14:48:15.685789",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "15:03",
+        "loteria": "LT NACIONAL 15HS",
+        "modalidade": "GRUPO",
+        "numero_sorteado": "24",
+        "ganhador": "Unidade: 1001025",
+        "valor": "R$ 4.000,00",
+        "timestamp_local": "2026-02-21T15:22:30.846299",
+        "suspeito": false
     }
 ]
