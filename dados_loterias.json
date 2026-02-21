@@ -658,5 +658,16 @@
         "valor": "R$ 720,00",
         "timestamp_local": "2026-02-21T14:19:05.835149",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "14:31",
+        "loteria": "LT PT RIO 14HS",
+        "modalidade": "MILHAR",
+        "numero_sorteado": "9727",
+        "ganhador": "Unidade: 818744",
+        "valor": "R$ 30.000,00",
+        "timestamp_local": "2026-02-21T14:48:15.685789",
+        "suspeito": false
     }
 ]
