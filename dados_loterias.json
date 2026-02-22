@@ -768,5 +768,16 @@
         "valor": "R$ 96.000,00",
         "timestamp_local": "2026-02-21T20:43:57.551997",
         "suspeito": false
+    },
+    {
+        "dia": "21/02/2026",
+        "horario_extracao": "21:54",
+        "loteria": "LT MALUCA/BOASORTE 21HS",
+        "modalidade": "CENTENA",
+        "numero_sorteado": "648",
+        "ganhador": "Unidade: 803900",
+        "valor": "R$ 400,00",
+        "timestamp_local": "2026-02-21T22:45:38.171415",
+        "suspeito": false
     }
 ]
